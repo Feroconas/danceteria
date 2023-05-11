@@ -21,6 +21,7 @@ class NivelMembro(models.Model):
     def __str__(self):
         return self.get_id_nivel_display()
 
+# samba, hip-hop, tango, etc
 class Categoria(models.Model):
     nome = models.CharField(max_length=50)
 

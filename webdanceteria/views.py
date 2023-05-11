@@ -53,7 +53,6 @@ def register_view(request):
                 form.cleaned_data['password']
             )
             # Definindo os pontos iniciais do user
-            pontos = 0
             nivel_iniciante = NivelMembro.objects.get(id_nivel=1)
             a = Membro(
                 user=user,
