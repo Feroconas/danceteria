@@ -32,7 +32,7 @@ class RegisterMemberForm(forms.ModelForm):
         data = self.cleaned_data['data_nascimento']
         idade = (date.today() - data) // timedelta(days=365.2425)
         if idade < 3 or idade > 100:
-            raise forms.ValidationError("A data de nascimento deve ser entre 3 e 100 anos atrás.")
+            raise forms.ValidationError("Deverá ter entre 3 a 100 anos de idade para se poder registar.")
         return data
 
 # class InstrutorForm(forms.ModelForm):

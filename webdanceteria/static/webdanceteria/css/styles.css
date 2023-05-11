@@ -572,6 +572,9 @@ section {
     text-align: center;
     padding: 15px;
 }
+.login-form li{
+    color: #a52834;
+}
 
 .login-form .loading:before {
     content: "";
