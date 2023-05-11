@@ -13,9 +13,9 @@ from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Instrutor
-from webdanceteria.forms import RegisterUserForm
+from webdanceteria.forms import RegisterMemberForm
 from webdanceteria.models import Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula
-from .forms import RegisterUserForm
+from .forms import RegisterMemberForm
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -45,7 +45,7 @@ def login_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = RegisterUserForm(request.POST)
+        form = RegisterMemberForm(request.POST)
         if form.is_valid():
             user = User.objects.create_user(
                 form.cleaned_data['username'],
@@ -63,13 +63,13 @@ def register_view(request):
                 data_nascimento=form.cleaned_data['data_nascimento'],
                 preferencias_musicais=form.cleaned_data['preferencias_musicais'],
                 nivel_membro=nivel_iniciante,
-                pontos=pontos
+                pontos=0
             )
             a.save()
 
             return redirect('webdanceteria:login_view')
     else:
-        form = RegisterUserForm()
+        form = RegisterMemberForm()
     return render(request, 'webdanceteria/register.html', {'form': form})
 
 #@login_required
