@@ -51,13 +51,13 @@ def register_view(request):
                 form.cleaned_data['email'],
                 form.cleaned_data['password']
             )
-            # Definindo os pontos iniciais do user
             nivel_iniciante = NivelMembro.objects.get(id_nivel=1)
             a = Membro(
                 user=user,
                 nome=form.cleaned_data['nome'],
                 email=form.cleaned_data['email'],
                 genero=form.cleaned_data['genero'],
+                descricao=form.cleaned_data['descricao'],
                 data_nascimento=form.cleaned_data['data_nascimento'],
                 preferencias_musicais=form.cleaned_data['preferencias_musicais'],
                 nivel_membro=nivel_iniciante,
@@ -134,7 +134,7 @@ def events_view(request):
 def comprarBilheteEv_view(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
     preco = evento.preco_bilhete
-    comprador = request.user.utilizador
+    comprador = request.user.membro
     data_compra = timezone.now()
     data_validade = evento.data_hora
 
@@ -177,7 +177,7 @@ def apagarBilheteEv_view(request, bilhete_id):
 def comprarBilheteAula_view(request, aula_id):
     aulaDanca = get_object_or_404(AulaDanca, id=aula_id)
     preco = aulaDanca.preco_bilhete
-    comprador = request.user.utilizador
+    comprador = request.user.membro
     data_compra = timezone.now()
     data_validade = aulaDanca.data_hora
 
