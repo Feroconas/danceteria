@@ -14,10 +14,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Instrutor
 from webdanceteria.forms import RegisterMemberForm
-from webdanceteria.models import Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula
+from webdanceteria.models import Utilizador, Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula
 from .forms import RegisterMemberForm
 from django.contrib.auth.decorators import user_passes_test
-
 
 
 def home(request):
@@ -62,7 +61,6 @@ def register_view(request):
                 data_nascimento=form.cleaned_data['data_nascimento'],
                 preferencias_musicais=form.cleaned_data['preferencias_musicais'],
                 nivel_membro=nivel_iniciante,
-                pontos=0
             )
             a.save()
 
@@ -71,18 +69,19 @@ def register_view(request):
         form = RegisterMemberForm()
     return render(request, 'webdanceteria/register.html', {'form': form})
 
-#@login_required
-#def criar_instrutor(request):
- #   if request.method == 'POST':
-  #      form = InstrutorForm(request.POST)
-   #     if form.is_valid():
-    #        instrutor = form.save(commit=False)
-     #       instrutor.user = request.user
-      #      instrutor.save()
-       #     return redirect('home')
-   # else:
-    #    form = InstrutorForm()
-    #return render(request, 'criar_instrutor.html', {'form': form})
+
+# @login_required
+# def criar_instrutor(request):
+#   if request.method == 'POST':
+#      form = InstrutorForm(request.POST)
+#     if form.is_valid():
+#        instrutor = form.save(commit=False)
+#       instrutor.user = request.user
+#      instrutor.save()
+#     return redirect('home')
+# else:
+#    form = InstrutorForm()
+# return render(request, 'criar_instrutor.html', {'form': form})
 
 
 def logout_view(request):
@@ -91,12 +90,9 @@ def logout_view(request):
 
 
 def profile_view(request):
-    user_in_instrutores = request.user.groups.filter(name='Instrutores').exists()
     bilhetesEvento = BilheteEvento.objects.order_by(F('data_validade'))
     bilhetesAula = BilheteAula.objects.order_by(F('data_validade'))
-    pontos = request.user.utilizador.pontos
-    return render(request, 'webdanceteria/profile.html',  {'bilhetesEvento': bilhetesEvento,'bilhetesAula': bilhetesAula,
-                                                           'pontos': pontos, 'user_in_instrutores': user_in_instrutores})
+    return render(request, 'webdanceteria/profile.html', {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula})
 
 
 @csrf_exempt
@@ -104,7 +100,7 @@ def editUser_view(request):
     if request.method == 'POST':
         userDjango = request.user
         userDjango.username = request.POST.get('username')
-        user = request.user.utilizador
+        user = request.user.membro
         user.nome = request.POST.get('nome')
         user.email = request.POST.get('email')
         user.genero = request.POST.get('genero')
@@ -117,6 +113,7 @@ def editUser_view(request):
     else:
         return HttpResponse("Parâmetros de login inválidos: ")
         return render(request, 'webdanceteria/profile.html')
+
 
 def events_view(request):
     user_in_instrutores = request.user.groups.filter(name='Instrutores').exists()
@@ -145,7 +142,7 @@ def comprarBilheteEv_view(request, evento_id):
         evento.bilhetes_disponiveis -= 1
         evento.save()
         BilheteEvento.objects.create(comprador=comprador, evento=evento, data_compra=data_compra, data_validade=data_validade,
-                               preco=preco)
+                                     preco=preco)
         comprador.pontos += 7
         comprador.save()
         return JsonResponse({
@@ -156,11 +153,12 @@ def comprarBilheteEv_view(request, evento_id):
     else:
         return JsonResponse({"mensagem": "Não há mais bilhetes disponíveis para este evento."})
 
+
 @login_required()
 def apagarBilheteEv_view(request, bilhete_id):
     bilhete = get_object_or_404(BilheteEvento, id=bilhete_id)
     evento = bilhete.evento
-    if request.user.utilizador == bilhete.comprador:
+    if request.user.membro == bilhete.comprador:
         bilhete.comprador.pontos -= 7
         bilhete.comprador.save()
         bilhete.delete()
@@ -173,7 +171,6 @@ def apagarBilheteEv_view(request, bilhete_id):
         })
     else:
         return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
-
 
 
 @login_required()
@@ -189,7 +186,7 @@ def comprarBilheteAula_view(request, aula_id):
         aulaDanca.participantes += 1
         aulaDanca.save()
         BilheteAula.objects.create(comprador=comprador, aula=aulaDanca, data_compra=data_compra, data_validade=data_validade,
-                               preco=preco)
+                                   preco=preco)
         comprador.pontos += 5
         comprador.save()
         return JsonResponse({
@@ -200,11 +197,12 @@ def comprarBilheteAula_view(request, aula_id):
     else:
         return JsonResponse({"mensagem": "Não há mais bilhetes disponíveis para este evento."})
 
+
 @login_required()
 def apagarBilheteAula_view(request, bilheteAula_id):
     bilhete = get_object_or_404(BilheteAula, id=bilheteAula_id)
     aula = bilhete.aula
-    if request.user.utilizador == bilhete.comprador:
+    if request.user.membro == bilhete.comprador:
         bilhete.comprador.pontos -= 5
         bilhete.comprador.save()
         bilhete.delete()
@@ -220,7 +218,5 @@ def apagarBilheteAula_view(request, bilheteAula_id):
     else:
         return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
 
-
-
-#@user_passes_test(is_instrutor)
-#def criar_aula(request):
+# @user_passes_test(is_instrutor)
+# def criar_aula(request):

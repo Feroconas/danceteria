@@ -585,6 +585,7 @@ section {
     animation: animate-loading 1s linear infinite;
 }
 
+
 .login-form input,
 .login-form textarea {
     border-radius: 0;
@@ -604,6 +605,18 @@ section {
 
 .login-form textarea {
     padding: 10px 12px;
+}
+
+.login-form label{
+    color: #ffffff;
+}
+
+.login-form legend{
+    color: #ffffff;
+}
+
+.login-form fieldset label{
+    color: #151515;
 }
 
 .login-form .btnlog {

@@ -11,6 +11,7 @@
     {% endblock %}
 
     {% load static %}
+    {% load registerfilters %}
 
     <!-- CSS do Bootstrap v5.3 -->
     <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap.css' %}">
@@ -139,9 +140,10 @@
                         <div class="about-text edit-mode">
                             <h3>Perfil</h3>
                             <h6 class="mt-4"> Nome:
-                                <span>{{ request.user.utilizador.nome }} </span>
+                                <span>{{ request.user|getUtilizador|getNome }} </span>
                             </h6>
                             <label class="mt-2">Descrição: </label>
+                                <span>{{ request.user|getUtilizador|getDescricao }} </span>
                             <span> {{ request.user.utilizador.descricao }} </span>
                             <div class="row about-list">
                                 <div class="col-md-6">
@@ -151,21 +153,23 @@
                                     </div>
                                     <div class="data">
                                         <label>Data de nascimento:</label>
-                                        <span>{{ request.user.utilizador.data_nascimento }} </span>
+                                <span>{{ request.user|getUtilizador|getDataNascimento }} </span>
                                     </div>
                                     <div class="data">
+                                        {% if request.user|isMembro  %}
                                         <label>Preferências musicais: </label>
-                                        <span> {{ request.user.utilizador.preferencias_musicais }} </span>
+                                        <span> {{ request.user.membro.preferencias_musicais }} </span>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="data">
                                         <label>Género: </label>
-                                        <span> {{ request.user.utilizador.genero }}</span>
+                                <span>{{ request.user|getUtilizador|getGenero }} </span>
                                     </div>
                                     <div class="data">
                                         <label>E-mail: </label>
-                                        <span> {{ request.user.utilizador.email }} </span>
+                                <span>{{ request.user|getUtilizador|getEmail }} </span>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +184,7 @@
                         <div class="col-lg-3">
                             <div class="bar-data text-center">
                                 <h6 class="number h2" data-to="500" data-speed="500">
-                                    {{ request.user.utilizador.nivel_membro.id_nivel }} </h6>
+                                    {{ request.user.membro.nivel_membro.id_nivel }} </h6>
                                 <p>Nível</p>
                             </div>
                         </div>
@@ -190,10 +194,10 @@
                                     <h6 class="number h2" data-to="150" data-speed="150">
                                         {{ request.user.instrutor.especializacao }}
                                     </h6>
-                                    <p>Especializacao</p>
+                                    <p>Especialização</p>
                                 {% else %}
                                     <h6 class="number h2" data-to="150" data-speed="150">
-                                        {{ request.user.utilizador.pontos }}
+                                        {{ request.user.membro.pontos }}
                                     </h6>
                                     <p>Pontos</p>
                                 {% endif %}
@@ -395,7 +399,7 @@
             <!-- botão Eliminar bilhete evento -->
             $(document).ready(function () {
                 $("#btn-remove-ticket").click(function () {
-                    var bilheteId = $(this).attr('data-id');
+                    const bilheteId = $(this).attr('data-id');
                     $.ajax({
                         url: "{% url 'webdanceteria:apagarBilheteEv_view' bilhete_id=0 %}".replace('0', bilheteId),
                         type: "POST",
@@ -415,7 +419,7 @@
             <!-- botão Eliminar bilhete aula -->
             $(document).ready(function () {
                 $("#btn-remove-ticketAula").click(function () {
-                    var bilheteId = $(this).attr('data-id');
+                    const bilheteId = $(this).attr('data-id');
                     $.ajax({
                         url: "{% url 'webdanceteria:apagarBilheteAula_view' bilheteAula_id=0 %}".replace('0', bilheteId),
                         type: "POST",
