@@ -6,7 +6,7 @@ from datetime import date, timedelta
 class RegisterMemberForm(forms.ModelForm):
     username = forms.CharField(label='Nome de utilizador (único):', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
     password = forms.CharField(label='Password:', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'}))
-    genero = forms.ChoiceField(label='Género:', choices=genero_choices, widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    genero = forms.ChoiceField(label='Género:', choices=genero_choices, widget=forms.RadioSelect)
     preferencias_musicais = forms.CharField(label='Preferências musicais:', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Preferências Musicais'}))
     data_nascimento = forms.DateField(label='Data de nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
 
