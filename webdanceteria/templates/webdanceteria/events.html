@@ -1,0 +1,243 @@
+{% extends "./profile.html" %}
+<html lang="en">
+
+{% block title %}
+    <title> Eventos </title>
+{% endblock %}
+{% load static %}
+
+{% block active %}
+    <li><a class="nav-link scrollto active" href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
+    {% if request.user.is_authenticated %}
+        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        <li class="dropdown"><a href="{% url 'webdanceteria:profile_view' %}"><span>Perfil</span> <i
+                class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li><a href="{% url 'webdanceteria:profile_view' %}"> Os meus bilhetes </a></li>
+            </ul>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block pageName %}
+    <li>Eventos</li>
+{% endblock %}
+
+
+{% block content %}
+    <!-- ======= Events Section ======= -->
+    <main>
+        <section class="events">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title" style="margin-bottom: 40px">
+                    <h3 style="margin-bottom: -40px">Eventos</h3>
+                    {% if user_in_instrutores %}
+                        <button class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0">Criar Aula</button>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    {% for evento in eventos %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                             data-aos="zoom-in" data-aos-delay="100">
+                            <div class="event-box" style="width: 400px;">
+                                <div class="icon"><img style="width: 40px"
+                                                       src="{% static 'webdanceteria/img/eventIcon.png' %}" alt="event">
+                                </div>
+                                <h4 data-bs-toggle="modal"
+                                    data-bs-target="#evento-modal-{{ evento.id }}">{{ evento.nome }}</h4>
+                                <p>{{ evento.data_hora }}</p>
+                                <p>{{ evento.descricao|truncatechars:70 }}{% if evento.descricao|length > 70 %}
+                                    ...{% endif %}</p>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="evento-modal-{{ evento.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="evento{{ evento.id }}Label" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content contentModal">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title modalTitle"
+                                            id="evento{{ evento.id }}Label">{{ evento.nome }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>{{ evento.descricao }}</p>
+                                        <p>Data: {{ evento.data_hora }}</p>
+                                        <p>Artistas: {{ evento.artistas }}</p>
+                                        <p>Bilhete: {{ evento.preco_bilhete }} €</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary comprar-bilhete-btn"
+                                                data-evento-id="{{ evento.id }}">Comprar bilhete
+                                        </button>
+                                        <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="button-container">
+                    <button class="showBtn" id="btn-hide-aulas">Aulas</button>
+                </div>
+
+                <div class="row aulas d-none" id="aulas">
+                    {% for aula in aulas %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                             data-aos="zoom-in" data-aos-delay="100">
+                            <div class="event-box" style="  width: 400px;">
+                                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                                <h4 data-bs-toggle="modal"
+                                    data-bs-target="#aula-modal-{{ aula.id }}">{{ aula.nome }}</h4>
+                                <p>{{ aula.data_hora }}</p>
+                                <p> Instrutor(a) {{ aula.instrutor_id.nome }}</p>
+
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="aula-modal-{{ aula.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="evento{{ aula.id }}Label" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content contentModal">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title modalTitle"
+                                            id="aula{{ aula.id }}Label">{{ aula.nome }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Instrutor(a): {{ aula.instrutor_id.nome }}</p>
+                                        <p>Data: {{ aula.data_hora }}</p>
+                                        <p>Nível aconselhado: {{ aula.nivel_aconselhado }}</p>
+                                        <p>Bilhete: {{ aula.preco_bilhete }} €</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary comprar-bilhete-aula-btn"
+                                                data-evento-id="{{ aula.id }}">Comprar bilhete
+                                        </button>
+                                        <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </section><!-- End Services Section -->
+
+    </main>
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-info">
+                            <h3> Danç'Arte<span>.</span></h3>
+                            <p>
+                                Rua Novos Descobrimentos <br>
+                                Lisboa, Portugal<br><br>
+                                <strong>Phone:</strong> +211 345 327<br>
+                                <strong>Email:</strong> dancarte@gmail.com<br>
+                            </p>
+                            <div class="social-links mt-3">
+                                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a
+                                    href="{% url 'webdanceteria:home' %}">Home</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos</a>
+                            </li>
+                            <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn-hide-aulas").click(function () {
+                $("#aulas").toggleClass("d-none");
+            });
+        });
+
+        $(document).ready(function () {
+            $(".comprar-bilhete-btn").click(function () {
+                var eventoId = $(this).attr('data-evento-id');
+                $.ajax({
+                    url: "{% url 'webdanceteria:comprarBilheteEv_view' evento_id=0 %}".replace('0', eventoId),
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success: function (data) {
+                        // Aqui você pode exibir uma mensagem de sucesso ou redirecionar o usuário para outra página
+                        // Fechar a janela pop-up
+
+                        $("#evento-modal-" + eventoId).modal("hide");
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $(".comprar-bilhete-aula-btn").click(function () {
+                var aulaId = $(this).attr('data-evento-id');
+                $.ajax({
+                    url: "{% url 'webdanceteria:comprarBilheteAula_view' aula_id=0 %}".replace('0', aulaId),
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success: function (data) {
+                        // Aqui você pode exibir uma mensagem de sucesso ou redirecionar o usuário para outra página
+                        // Fechar a janela pop-up
+
+                        $("#aula-modal-" + aulaId).modal("hide");
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

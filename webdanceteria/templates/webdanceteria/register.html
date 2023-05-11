@@ -1,0 +1,47 @@
+{% extends "./home.html" %}
+<html lang="en">
+
+{% block title %}
+    <title>Registar</title>
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <body>
+
+    <!-- ======= Hero Section -- Forms ======= -->
+    <section id="hero" style="height: auto" class="hero-register">
+        <div class="container" style="padding-top: 10px;" data-aos="fade-up">
+
+            <div class="row justify-content-center" style="height: auto" data-aos="fade-up" data-aos-delay="150">
+                <h1 style="margin-bottom: 25px"> Regista-te </h1>
+                <h2> Por favor, prenche os seguintes dados </h2>
+
+                <div class="row gy-2 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+                    <form method="post" class="login-form register-form ">
+                        {% csrf_token %}
+
+                        {{ form.as_div }}
+
+                        <div class="my-3">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        </div>
+                        <div class="text center">
+                            <button type="submit" class="btnlog"> Registar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+    </section><!-- End Hero -->
+
+{% endblock %}
+
+
+</body>

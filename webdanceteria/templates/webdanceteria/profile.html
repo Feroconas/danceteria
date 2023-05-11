@@ -1,0 +1,440 @@
+<html lang="en">
+
+<!-- TO DO: colocar spans alinhados e nºs na bar -->
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    {% block title %}
+        <title>Perfil</title>
+    {% endblock %}
+
+    {% load static %}
+
+    <!-- CSS do Bootstrap v5.3 -->
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-utilities.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-utilities.rtl.css' %}">
+
+    <!-- Favicons -->
+    <link href="{% static 'webdanceteria/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'webdanceteria/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'webdanceteria/css/styles.css' %}" rel="stylesheet">
+
+    <!-- JS do Bootstrap v5.3 -->
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
+
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- ======= Header ======= -->
+<header id="header" class="header-inner-pages">
+    <div class="container d-flex align-items-center justify-content-lg-between ">
+        <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
+        <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
+          maior que a especificada pelo breakpoint "lg"  -->
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Home</a></li>
+                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Sobre nós</a></li>
+                {% block active %}
+                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated %}
+                        <li class="dropdown"><a class="active" href="{% url 'webdanceteria:profile_view' %}"><span>Perfil</span>
+                            <i
+                                    class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                <li><a href="#tickets"> Os meus bilhetes </a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+
+                {% endblock %}
+                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Contactos</a></li>
+            </ul>
+        </nav><!-- .navbar -->
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
+        {% else %}
+            <a href="{% url 'webdanceteria:register_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
+            <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
+        {% endif %}
+
+
+    </div>
+</header><!-- End Header -->
+
+
+<main id="main" style="height: 100vh">
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2></h2>
+                <ol>
+                    <li><a href="home.html">Home</a></li>
+                    {% block pageName %}
+                        <li>Perfil</li>
+                    {% endblock %}
+                </ol>
+            </div>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    {% block content %}
+        <!-- About me -->
+        <section class="section">
+            <div class="container">
+                <div class="row align-items-center flex-row-reverse">
+
+                    <!-- start photo + button edit -->
+                    <div class="col-lg-6" style="display: flex;flex-direction: column;align-items: center;">
+                        <div class="about-avatar">
+                            <img src="{% static 'webdanceteria/img/user.png' %}" title="" alt="">
+                        </div>
+                        <div class="btn-edit">
+                            <button id="edit-profile-btn" class="editBtn" data-bs-toggle="modal"
+                                    data-bs-target="#editProfileModal">Alterar
+                            </button>
+                        </div>
+                    </div>
+                    <!-- end photo + button edit -->
+
+                    <!-- start user inf -->
+                    <div class="col-lg-6">
+                        <div class="about-text edit-mode">
+                            <h3>Perfil</h3>
+                            <h6 class="mt-4"> Nome:
+                                <span>{{ request.user.utilizador.nome }} </span>
+                            </h6>
+                            <label class="mt-2">Descrição: </label>
+                            <span> {{ request.user.utilizador.descricao }} </span>
+                            <div class="row about-list">
+                                <div class="col-md-6">
+                                    <div class="data">
+                                        <label>Username:</label>
+                                        <span>{{ request.user.username }} </span>
+                                    </div>
+                                    <div class="data">
+                                        <label>Data de nascimento:</label>
+                                        <span>{{ request.user.utilizador.data_nascimento }} </span>
+                                    </div>
+                                    <div class="data">
+                                        <label>Preferências musicais: </label>
+                                        <span> {{ request.user.utilizador.preferencias_musicais }} </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="data">
+                                        <label>Género: </label>
+                                        <span> {{ request.user.utilizador.genero }}</span>
+                                    </div>
+                                    <div class="data">
+                                        <label>E-mail: </label>
+                                        <span> {{ request.user.utilizador.email }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end user inf -->
+                </div>
+
+                <!-- start bar -->
+                <div class="bar">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="bar-data text-center">
+                                <h6 class="number h2" data-to="500" data-speed="500">
+                                    {{ request.user.utilizador.nivel_membro.id_nivel }} </h6>
+                                <p>Nível</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="bar-data text-center">
+                                {% if user_in_instrutores %}
+                                    <h6 class="number h2" data-to="150" data-speed="150">
+                                        {{ request.user.instrutor.especializacao }}
+                                    </h6>
+                                    <p>Especializacao</p>
+                                {% else %}
+                                    <h6 class="number h2" data-to="150" data-speed="150">
+                                        {{ request.user.utilizador.pontos }}
+                                    </h6>
+                                    <p>Pontos</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="bar-data text-center">
+                                <h6 class="number h2" data-to="850" data-speed="850">850</h6>
+                                <p>Aulas</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="bar-data text-center">
+                                <h6 class="number h2" data-to="190" data-speed="190">190</h6>
+                                <p>Eventos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end bar -->
+
+                <!-- start tickets -->
+                <div class="button-container">
+                    <button class="showBtn" id="btn-show-eventos">Bilhetes de eventos</button>
+                </div>
+                <div class="row d-none" id="tickets">
+                    {% for bilheteEvento in bilhetesEvento %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                             data-aos="zoom-in" data-aos-delay="100">
+                            <div class="event-box tickets-box" style="width: 400px;">
+                                <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="ticket">
+                                </div>
+                                <h4>{{ bilheteEvento.evento.nome }}</h4>
+                                <p>{{ bilheteEvento.evento.data_hora }}</p>
+                                <p>{{ bilheteEvento.evento.descricao|truncatechars:70 }}
+                                    {% if bilheteEvento.descricao|length > 70 %}
+                                        ...{% endif %}</p>
+
+                                <div class="removeBtn-container">
+                                    <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="button-container">
+                    <button class="showBtn" id="btn-show-aulas">Bilhetes de aulas</button>
+                </div>
+                <div class="row d-none" id="ticketsAulas">
+                    {% for bilheteAula in bilhetesAula %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                             data-aos="zoom-in" data-aos-delay="100">
+                            <div class="event-box tickets-box" style="width: 400px;">
+                                <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="Bilhete">
+                                </div>
+                                <h4>{{ bilheteAula.aula.nome }}</h4>
+                                <p>{{ bilheteAula.aula.data_hora }}</p>
+                                <p> Instrutor(a): {{ bilheteAula.aula.instrutor_id.nome }}</p>
+
+                                <div class="removeBtn-container">
+                                    <button class="removeBtn" id="btn-remove-ticketAula" data-id="{{ bilheteAula.id }}">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- end  tickets -->
+            </div>
+        </section>
+
+
+        <!-- POP UP edit user -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title modalTitle" id="editProfileModalLabel">Editar perfil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{% url 'webdanceteria:editUser_view' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label" style="width: auto;">Nome</label>
+                                <input type="text" class="form-control" id="nameInput" name="nome"
+                                       value="{{ user.utilizador.nome }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="usernameInput" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="usernameInput" name="username"
+                                       value="{{ user.username }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailInput" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="emailInput" name="email"
+                                       value="{{ user.utilizador.email }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="generoInput" class="form-label">Género</label>
+                                <select class="form-select" id="generoInput" name="genero">
+                                    {% for choice in user.utilizador.genero_choices %}
+                                        {% if choice.0 == user.utilizador.genero %}
+                                            <option value="{{ choice.0 }}" selected>{{ choice.1 }}</option>
+                                        {% else %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="dataInput" class="form-label">Data de nascimento</label>
+                                <input type="date" class="form-control" id="dataInput" name="data_nascimento"
+                                       value="{{ user.utilizador.data_nascimento }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descricaoInput" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="descricaoInput"
+                                          name="descricao">{{ user.utilizador.descricao }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="preferenciasInput" class="form-label">Preferências musicais</label>
+                                <input type="text" class="form-control" id="preferenciasInput"
+                                       name="preferencias_musicais" value="{{ user.utilizador.preferencias_musicais }}">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="saveBtn">Salvar alterações</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- END POP UP edit user -->
+
+        </main>
+
+        <!-- ======= Footer ======= -->
+        <footer id="footer">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-info">
+                                <h3> Danç'Arte<span>.</span></h3>
+                                <p>
+                                    Rua Novos Descobrimentos <br>
+                                    Lisboa, Portugal<br><br>
+                                    <strong>Phone:</strong> +211 345 327<br>
+                                    <strong>Email:</strong> dancarte@gmail.com<br>
+                                </p>
+                                <div class="social-links mt-3">
+                                    <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-6 footer-links">
+                            <h4>Links</h4>
+                            <ul>
+                                <li><i class="bx bx-chevron-right"></i> <a
+                                        href="{% url 'webdanceteria:home' %}">Home</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos</a>
+                                </li>
+                                <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#btn-show-eventos").click(function () {
+                    $("#tickets").toggleClass("d-none");
+                });
+            });
+            <!-- botão 'Bilhetes de aulas' -->
+            $(document).ready(function () {
+                $("#btn-show-aulas").click(function () {
+                    $("#ticketsAulas").toggleClass("d-none");
+                });
+            });
+            <!-- botão Eliminar bilhete evento -->
+            $(document).ready(function () {
+                $("#btn-remove-ticket").click(function () {
+                    var bilheteId = $(this).attr('data-id');
+                    $.ajax({
+                        url: "{% url 'webdanceteria:apagarBilheteEv_view' bilhete_id=0 %}".replace('0', bilheteId),
+                        type: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                        },
+                        success: function (data) {
+                            $("#tickets").toggleClass("d-none");
+                            $("#tickets").load("{% url 'webdanceteria:profile_view' %}");
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log(xhr.status + ": " + xhr.responseText);
+                        }
+                    });
+                });
+            });
+            <!-- botão Eliminar bilhete aula -->
+            $(document).ready(function () {
+                $("#btn-remove-ticketAula").click(function () {
+                    var bilheteId = $(this).attr('data-id');
+                    $.ajax({
+                        url: "{% url 'webdanceteria:apagarBilheteAula_view' bilheteAula_id=0 %}".replace('0', bilheteId),
+                        type: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                        },
+                        success: function (data) {
+                            $("#ticketsAulas").toggleClass("d-none");
+                            $("#ticketsAulas").load("{% url 'webdanceteria:profile_view' %}");
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log(xhr.status + ": " + xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+
+
+    {% endblock %}
+
+</body>

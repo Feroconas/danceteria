@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    {% block title %}
+        <title>Home</title>
+    {% endblock %}
+    {% load static %}
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- CSS do Bootstrap v5.3 -->
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-utilities.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-utilities.rtl.css' %}">
+
+    <!-- Favicons -->
+    <link href="{% static 'webdanceteria/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'webdanceteria/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'webdanceteria/css/styles.css' %}" rel="stylesheet">
+
+    <!-- JS do Bootstrap v5.3 -->
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
+
+
+</head>
+
+
+{% block content %}
+    <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top ">
+        <div class="container d-flex align-items-center justify-content-lg-between">
+
+            <!--  "me-auto" (que centraliza horizontalmente o elemento) e "me-lg-0"
+              (que define uma margem esquerda de 0 para telas grandes). -->
+            <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+            <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
+              maior que a especificada pelo breakpoint "lg"  -->
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="{% url 'webdanceteria:home' %}">Home</a></li>
+                    <li><a class="nav-link scrollto" href="#about">Sobre nós</a></li>
+                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated %}
+                        <li class="dropdown"><a href="{% url 'webdanceteria:profile_view' %}"><span>Perfil</span> <i
+                                class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                <li><a href="{% url 'webdanceteria:profile_view' %}"> Os meus bilhetes </a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li><a class="nav-link scrollto" href="#footer">Contactos</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
+            {% else %}
+                <a href="{% url 'webdanceteria:register_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
+                <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
+            {% endif %}
+
+
+        </div>
+    </header><!-- End Header -->
+
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center justify-content-center">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+                <div class="col-lg-8">
+                    {% if request.user.is_authenticated %}
+                        {% if user_in_instrutores %}
+                             <h1 class="mb-3"> Bem vindo/a, {{ request.user.instrutor.nome }} <span>.</span></h1>
+                        {% else %}
+                            <h1 class="mb-3"> Bem vindo/a, {{ request.user.utilizador.nome }} <span>.</span></h1>
+                        {% endif %}
+                    {% else %}
+                        <h1> Junta-te a nós <span>.</span></h1>
+                    {% endif %}
+                    <h2> Descobre um mundo de movimentos e emoções </h2>
+                </div>
+            </div>
+
+            <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+                <div class="col-xl-2">
+                    <div class="icon-box">
+                        <i class="ri-store-line"></i>
+                        <h3><a href="">Noite de Samba</a></h3>
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="icon-box">
+                        <i class="ri-bar-chart-box-line"></i>
+                        <h3><a href="">Aula de hip hop</a></h3>
+                    </div>
+                </div>
+                <div class="col-xl-2 ">
+                    <div class="icon-box">
+                        <i class="ri-calendar-todo-line"></i>
+                        <h3><a href="">Noite de tango</a></h3>
+                    </div>
+                </div>
+                <div class="col-xl-2 ">
+                    <div class="icon-box">
+                        <i class="ri-paint-brush-line"></i>
+                        <h3><a href="">Magni Dolores</a></h3>
+                    </div>
+                </div>
+                <div class="col-xl-2 ">
+                    <div class="icon-box">
+                        <i class="ri-database-2-line"></i>
+                        <h3><a href="">Nemos Enimade</a></h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+                    <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+                        <img src="..." class="img-fluid" alt="">
+                    </div>
+                    <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right"
+                         data-aos-delay="100">
+                        <h3> Sobre nós </h3>
+                        <p class="fst-italic">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore
+                            magna aliqua.
+                        </p>
+                        <ul>
+                            <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat.
+                            </li>
+                            <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate
+                                velit.
+                            </li>
+                            <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda
+                                mastiro dolore eu fugiat nulla pariatur.
+                            </li>
+                        </ul>
+                        <p>
+                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit
+                            in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End About Section -->
+
+
+    </main><!-- End #main -->
+{% endblock %}
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3> Danç'Arte<span>.</span></h3>
+              <p>
+                Rua Novos Descobrimentos <br>
+                Lisboa, Portugal<br><br>
+                <strong>Phone:</strong> +211 345 327<br>
+                <strong>Email:</strong> dancarte@gmail.com<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:home' %}">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
+              <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>
+
+
