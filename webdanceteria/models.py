@@ -42,7 +42,7 @@ class Utilizador(models.Model):
     nome = models.CharField(max_length=50)
     email = models.EmailField()
     genero = models.CharField(max_length=1, choices=genero_choices)
-    imagem_perfil = models.CharField(max_length=100, null=True, blank=True)
+    imagem_perfil = models.FileField(upload_to='utilizadorImg', null=True)
     descricao = models.CharField(max_length=500, null=True, blank=True)
     data_nascimento = models.DateField()
 
@@ -75,7 +75,7 @@ class Evento(models.Model):
     preco_bilhete = models.DecimalField(max_digits=6, decimal_places=2, default=None)
     bilhetes_disponiveis = models.IntegerField()
     descricao = models.CharField(max_length=500, null=True, blank=True)
-    imagem = models.CharField(max_length=100, null=True, blank=True)
+    imagem = models.FileField(upload_to='eventoImg', null=True)
     artistas = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
@@ -96,7 +96,7 @@ class AulaDanca(models.Model):
 
 
 class Bilhete(models.Model):
-    comprador = models.ForeignKey(Membro, related_name='%(class)s_related', on_delete=models.PROTECT)
+    comprador = models.ForeignKey(Membro, on_delete=models.PROTECT)
     data_compra = models.DateTimeField()
     data_validade = models.DateTimeField()
     preco = models.DecimalField(max_digits=6, decimal_places=2)
