@@ -1,5 +1,5 @@
 from django import forms
-from .models import genero_choices,  Membro, Instrutor, Categoria
+from .models import genero_choices, Membro, Instrutor, Categoria
 from datetime import date, timedelta
 
 
@@ -11,7 +11,7 @@ class RegisterMemberForm(forms.ModelForm):
 
     class Meta:
         model = Membro
-        fields = ['username', 'password', 'nome', 'email', 'genero', 'descricao', 'data_nascimento', 'preferencias_musicais', 'imagem_perfil']
+        fields = ['username', 'password', 'nome', 'email', 'genero', 'descricao', 'data_nascimento', 'preferencias_musicais', 'imagem_perfil', ]
         labels = {
             'nome': 'Nome de perfil',
             'email': 'E-mail',
@@ -24,7 +24,7 @@ class RegisterMemberForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Descrição'}),
             'preferencias_musicais': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Preferências Musicais'}),
-            'imagem_perfil': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'imagem_perfil': forms.ClearableFileInput(attrs={'class': 'form-control', 'enctype': 'multipart/form-data'}),
         }
         label_suffix = ':'
         attrs = {'class': 'register-form'}
@@ -46,7 +46,7 @@ class RegisterInstrutorForm(forms.ModelForm):
 
     class Meta:
         model = Instrutor
-        fields = ['username', 'password', 'nome', 'email', 'genero', 'descricao', 'data_nascimento', 'imagem_perfil', 'especializacao']
+        fields = ['username', 'password', 'nome', 'email', 'genero', 'descricao', 'data_nascimento', 'imagem_perfil', 'especializacao', ]
         labels = {
             'nome': 'Nome de perfil',
             'email': 'E-mail',
@@ -57,7 +57,7 @@ class RegisterInstrutorForm(forms.ModelForm):
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Descrição'}),
-            'imagem_perfil': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'imagem_perfil': forms.ClearableFileInput(attrs={'class': 'form-control', 'enctype': 'multipart/form-data'}),
         }
         label_suffix = ':'
         attrs = {'class': 'register-form'}
