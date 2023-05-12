@@ -43,7 +43,7 @@ def login_view(request):
 
 def register_member_view(request):
     if request.method == 'POST':
-        form = RegisterMemberForm(request.POST)
+        form = RegisterMemberForm(request.POST, request.FILES)
         if form.is_valid():
             user = User.objects.create_user(
                 form.cleaned_data['username'],
@@ -61,6 +61,7 @@ def register_member_view(request):
                 preferencias_musicais=form.cleaned_data['preferencias_musicais'],
                 nivel_membro=nivel_iniciante,
             )
+            membro.imagem_perfil.save(request.FILES['imagem_perfil'].name, request.FILES['imagem_perfil'])
             membro.save()
 
             return redirect('webdanceteria:login_view')
@@ -71,7 +72,7 @@ def register_member_view(request):
 
 def register_instrutor_view(request):
     if request.method == 'POST':
-        form = RegisterInstrutorForm(request.POST)
+        form = RegisterInstrutorForm(request.POST,request.FILES)
         if form.is_valid():
             user = User.objects.create_user(
                 form.cleaned_data['username'],
@@ -85,10 +86,10 @@ def register_instrutor_view(request):
                 genero=form.cleaned_data['genero'],
                 descricao=form.cleaned_data['descricao'],
                 data_nascimento=form.cleaned_data['data_nascimento'],
-                especializacao=form.cleaned_data['especializacao']
+                especializacao=form.cleaned_data['especializacao'],
             )
+            instrutor.imagem_perfil.save(request.FILES['imagem_perfil'].name, request.FILES['imagem_perfil'])
             instrutor.save()
-
             return redirect('webdanceteria:home')
     else:
         form = RegisterInstrutorForm()
