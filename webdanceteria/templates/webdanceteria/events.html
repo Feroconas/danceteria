@@ -1,4 +1,4 @@
-{% extends "./profile.html" %}
+{% extends "./home.html" %}
 <html lang="en">
 
 {% block title %}
@@ -29,13 +29,12 @@
 
 {% block content %}
     <!-- ======= Events Section ======= -->
-{% include "./header.html" %}
     <main>
         <section class="events">
             <div class="container" data-aos="fade-up">
                 <div class="section-title" style="margin-bottom: 40px">
                     <h3 style="margin-bottom: -40px">Eventos</h3>
-                    {% if user_in_instrutores %}
+                    {% if user|isInstrutor %}
                         <button class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0">Criar Aula</button>
                     {% endif %}
                 </div>
@@ -138,44 +137,6 @@
         </section><!-- End Services Section -->
 
     </main>
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-        <div class="footer-top">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-info">
-                            <h3> Danç'Arte<span>.</span></h3>
-                            <p>
-                                Rua Novos Descobrimentos <br>
-                                Lisboa, Portugal<br><br>
-                                <strong>Phone:</strong> +211 345 327<br>
-                                <strong>Email:</strong> dancarte@gmail.com<br>
-                            </p>
-                            <div class="social-links mt-3">
-                                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-6 footer-links">
-                        <h4>Links</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a
-                                    href="{% url 'webdanceteria:home' %}">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos</a>
-                            </li>
-                            <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">

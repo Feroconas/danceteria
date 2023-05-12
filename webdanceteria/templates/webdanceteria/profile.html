@@ -17,293 +17,293 @@
 <body>
 <!-- ======= Header ======= -->
 
-    {% block content %}
-        <!-- About me -->
-        {% include "./header.html" %}
-            <div class="container">
-                <div class="row align-items-center flex-row-reverse">
+{% block content %}
+    <!-- About me -->
+    <div class="container">
+        <div class="row align-items-center flex-row-reverse">
 
-                    <!-- start photo + button edit -->
-                    <div class="col-lg-6" style="display: flex;flex-direction: column;align-items: center;">
-                        <div class="about-avatar">
-                            {% if request.user|getUtilizador|getImagemPerfil %}
-                                <img src="{% static request.user|getUtilizador|getImagemPerfil %}" title="" alt="">
-                            {% else %}
-                                <img src="{% static 'webdanceteria/img/user.png' %}" title="" alt="">
-                            {% endif %}
-                        </div>
-                        <div class="btn-edit">
-                            <button id="edit-profile-btn" class="editBtn" data-bs-toggle="modal"
-                                    data-bs-target="#editProfileModal">Alterar
-                            </button>
-                        </div>
-                    </div>
-                    <!-- end photo + button edit -->
-
-                    <!-- start user inf -->
-                    <div class="col-lg-6">
-                        <div class="about-text edit-mode">
-                            <h3>Perfil</h3>
-                            <h6 class="mt-4"> Nome:
-                                <span>{{ request.user|getUtilizador|getNome }} </span>
-                            </h6>
-                            <label class="mt-2">Descrição: </label>
-                            <span>{{ request.user|getUtilizador|getDescricao }} </span>
-                            <span> {{ request.user.utilizador.descricao }} </span>
-                            <div class="row about-list">
-                                <div class="col-md-6">
-                                    <div class="data">
-                                        <label>Username:</label>
-                                        <span>{{ request.user.username }} </span>
-                                    </div>
-                                    <div class="data">
-                                        <label>Data de nascimento:</label>
-                                        <span>{{ request.user|getUtilizador|getDataNascimento }} </span>
-                                    </div>
-                                    <div class="data">
-                                        {% if request.user|isMembro %}
-                                            <label>Preferências musicais: </label>
-                                            <span> {{ request.user.membro.preferencias_musicais }} </span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="data">
-                                        <label>Género: </label>
-                                        <span>{{ request.user|getUtilizador|getGenero }} </span>
-                                    </div>
-                                    <div class="data">
-                                        <label>E-mail: </label>
-                                        <span>{{ request.user|getUtilizador|getEmail }} </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end user inf -->
+            <!-- start photo + button edit -->
+            <div class="col-lg-6" style="display: flex;flex-direction: column;align-items: center;">
+                <div class="about-avatar">
+                    {% if request.user|getImagemPerfil %}
+                        <img src="{% static request.user|getImagemPerfil %}" title="" alt="">
+                    {% else %}
+                        <img src="{% static 'webdanceteria/img/user.png' %}" title="" alt="">
+                    {% endif %}
                 </div>
+                <div class="btn-edit">
+                    <button id="edit-profile-btn" class="editBtn" data-bs-toggle="modal"
+                            data-bs-target="#editProfileModal">Alterar
+                    </button>
+                </div>
+            </div>
+            <!-- end photo + button edit -->
 
-                <!-- start bar -->
-                <div class="bar">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="bar-data text-center">
-                                <h6 class="number h2" data-to="500" data-speed="500">
-                                    {{ request.user.membro.nivel_membro.id_nivel }} </h6>
-                                <p>Nível</p>
+            <!-- start user inf -->
+            <div class="col-lg-6">
+                <div class="about-text edit-mode">
+                    <h3>Perfil</h3>
+                    <h6 class="mt-4"> Nome:
+                        <span>{{ user|getNome }} </span>
+                    </h6>
+                    <label class="mt-2">Descrição: </label>
+                    <span>{{ user|getDescricao }} </span>
+                    <div class="row about-list">
+                        <div class="col-md-6">
+                            <div class="data">
+                                <label>Username:</label>
+                                <span>{{ user.username }} </span>
                             </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="bar-data text-center">
-                                {% if request.user|isInstrutor %}
-                                    <h6 class="number h2" data-to="150" data-speed="150">
-                                        {{ request.user.instrutor.especializacao }}
-                                    </h6>
-                                    <p>Especialização</p>
-                                {% else %}
-                                    <h6 class="number h2" data-to="150" data-speed="150">
-                                        {{ request.user.membro.pontos }}
-                                    </h6>
-                                    <p>Pontos</p>
+                            <div class="data">
+                                <label>Data de nascimento:</label>
+                                <span>{{ user|getDataNascimento }} </span>
+                            </div>
+                            <div class="data">
+                                {% if request.user|isMembro %}
+                                    <label>Preferências musicais: </label>
+                                    <span> {{ user.membro.preferencias_musicais }} </span>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <div class="bar-data text-center">
-                                <h6 class="number h2" data-to="850" data-speed="850">850</h6>
-                                <p>Aulas</p>
+                        <div class="col-md-6">
+                            <div class="data">
+                                <label>Género: </label>
+                                <span>{{ user|getGenero }} </span>
                             </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="bar-data text-center">
-                                <h6 class="number h2" data-to="190" data-speed="190">190</h6>
-                                <p>Eventos</p>
+                            <div class="data">
+                                <label>E-mail: </label>
+                                <span>{{ user|getEmail }} </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- end bar -->
-
-                <!-- start tickets -->
-                <div class="button-container">
-                    <button class="showBtn" id="btn-show-eventos">Bilhetes de eventos</button>
-                </div>
-                <div class="row d-none" id="tickets">
-                    {% for bilheteEvento in bilhetesEvento %}
-                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
-                             data-aos="zoom-in" data-aos-delay="100">
-                            <div class="event-box tickets-box" style="width: 400px;">
-                                <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="ticket">
-                                </div>
-                                <h4>{{ bilheteEvento.evento.nome }}</h4>
-                                <p>{{ bilheteEvento.evento.data_hora }}</p>
-                                <p>{{ bilheteEvento.evento.descricao|truncatechars:70 }}
-                                    {% if bilheteEvento.descricao|length > 70 %}
-                                        ...{% endif %}</p>
-
-                                <div class="removeBtn-container">
-                                    <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="button-container">
-                    <button class="showBtn" id="btn-show-aulas">Bilhetes de aulas</button>
-                </div>
-                <div class="row d-none" id="ticketsAulas">
-                    {% for bilheteAula in bilhetesAula %}
-                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
-                             data-aos="zoom-in" data-aos-delay="100">
-                            <div class="event-box tickets-box" style="width: 400px;">
-                                <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="Bilhete">
-                                </div>
-                                <h4>{{ bilheteAula.aula.nome }}</h4>
-                                <p>{{ bilheteAula.aula.data_hora }}</p>
-                                <p> Instrutor(a): {{ bilheteAula.aula.instrutor_id.nome }}</p>
-
-                                <div class="removeBtn-container">
-                                    <button class="removeBtn" id="btn-remove-ticketAula" data-id="{{ bilheteAula.id }}">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <!-- end  tickets -->
             </div>
+            <!-- end user inf -->
+        </div>
 
-
-        <!-- POP UP edit user -->
-        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title modalTitle" id="editProfileModalLabel">Editar perfil</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- start bar -->
+        <div class="bar">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="bar-data text-center">
+                        <h6 class="number h2" data-to="500" data-speed="500">
+                            {{ request.user.membro.nivel_membro.id_nivel }} </h6>
+                        <p>Nível</p>
                     </div>
-                    <div class="modal-body">
-                        <form method="post" action="{% url 'webdanceteria:editUser_view' %}">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="nameInput" class="form-label" style="width: auto;">Nome</label>
-                                <input type="text" class="form-control" id="nameInput" name="nome"
-                                       value="{{ user.utilizador.nome }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="usernameInput" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="usernameInput" name="username"
-                                       value="{{ user.username }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="emailInput" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="emailInput" name="email"
-                                       value="{{ user.utilizador.email }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="generoInput" class="form-label">Género</label>
-                                <select class="form-select" id="generoInput" name="genero">
-                                    {% for choice in user.utilizador.genero_choices %}
-                                        {% if choice.0 == user.utilizador.genero %}
-                                            <option value="{{ choice.0 }}" selected>{{ choice.1 }}</option>
-                                        {% else %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="dataInput" class="form-label">Data de nascimento</label>
-                                <input type="date" class="form-control" id="dataInput" name="data_nascimento"
-                                       value="{{ user.utilizador.data_nascimento }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="descricaoInput" class="form-label">Descrição</label>
-                                <textarea class="form-control" id="descricaoInput"
-                                          name="descricao">{{ user.utilizador.descricao }}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="preferenciasInput" class="form-label">Preferências musicais</label>
-                                <input type="text" class="form-control" id="preferenciasInput"
-                                       name="preferencias_musicais" value="{{ user.utilizador.preferencias_musicais }}">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
-                                <button type="submit" class="saveBtn">Salvar alterações</button>
-                            </div>
-                        </form>
+                </div>
+                <div class="col-lg-3">
+                    <div class="bar-data text-center">
+                        {% if user|isInstrutor %}
+                            <h6 class="number h2" data-to="150" data-speed="150">
+                                {{ request.user.instrutor.especializacao }}
+                            </h6>
+                            <p>Especialização</p>
+                        {% elif user|isMembro %}
+                            <h6 class="number h2" data-to="150" data-speed="150">
+                                {{ request.user.membro.pontos }}
+                            </h6>
+                            <p>Pontos</p>
+                        {% endif %}
                     </div>
-
+                </div>
+                <div class="col-lg-3">
+                    <div class="bar-data text-center">
+                        <h6 class="number h2" data-to="850" data-speed="850">850</h6>
+                        <p>Aulas</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="bar-data text-center">
+                        <h6 class="number h2" data-to="190" data-speed="190">190</h6>
+                        <p>Eventos</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- END POP UP edit user -->
+        <!-- end bar -->
 
-        </main>
+        <!-- start tickets -->
+        <div class="button-container">
+            <button class="showBtn" id="btn-show-eventos">Bilhetes de eventos</button>
+        </div>
+        <div class="row d-none" id="tickets">
+            {% for bilheteEvento in bilhetesEvento %}
+                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                     data-aos="zoom-in" data-aos-delay="100">
+                    <div class="event-box tickets-box" style="width: 400px;">
+                        <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="ticket">
+                        </div>
+                        <h4>{{ bilheteEvento.evento.nome }}</h4>
+                        <p>{{ bilheteEvento.evento.data_hora }}</p>
+                        <p>{{ bilheteEvento.evento.descricao|truncatechars:70 }}
+                            {% if bilheteEvento.descricao|length > 70 %}
+                                ...{% endif %}</p>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript">
+                        <div class="removeBtn-container">
+                            <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="button-container">
+            <button class="showBtn" id="btn-show-aulas">Bilhetes de aulas</button>
+        </div>
+        <div class="row d-none" id="ticketsAulas">
+            {% for bilheteAula in bilhetesAula %}
+                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                     data-aos="zoom-in" data-aos-delay="100">
+                    <div class="event-box tickets-box" style="width: 400px;">
+                        <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="Bilhete">
+                        </div>
+                        <h4>{{ bilheteAula.aula.nome }}</h4>
+                        <p>{{ bilheteAula.aula.data_hora }}</p>
+                        <p> Instrutor(a): {{ bilheteAula.aula.instrutor_id.nome }}</p>
 
-            $(document).ready(function () {
-                $("#btn-show-eventos").click(function () {
-                    $("#tickets").toggleClass("d-none");
+                        <div class="removeBtn-container">
+                            <button class="removeBtn" id="btn-remove-ticketAula" data-id="{{ bilheteAula.id }}">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- end  tickets -->
+    </div>
+
+
+    <!-- POP UP edit user -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title modalTitle" id="editProfileModalLabel">Editar perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'webdanceteria:editUser_view' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nameInput" class="form-label" style="width: auto;">Nome</label>
+                            <input type="text" class="form-control" id="nameInput" name="nome"
+                                   value="{{ user|getNome }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="usernameInput" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="usernameInput" name="username"
+                                   value="{{ user.username }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="emailInput" name="email"
+                                   value="{{ user|getEmail }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="generoInput" class="form-label">Género</label>
+                            <select class="form-select" id="generoInput" name="genero">
+                                {% for choice in genero_choices %}
+                                    {% if choice.0 == user|getGenero %}
+                                        <option value="{{ choice.0 }}" selected>{{ choice.1 }}</option>
+                                    {% else %}
+                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dataInput" class="form-label">Data de nascimento</label>
+                            <input type="date" class="form-control" id="dataInput" name="data_nascimento"
+                                   value="{{ user|getDataNascimento }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descricaoInput" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descricaoInput"
+                                      name="descricao">{{ user|getDescricao }}</textarea>
+                        </div>
+                        {% if user|isMembro %}
+                            <div class="mb-3">
+                                <label for="preferenciasInput" class="form-label">Preferências musicais</label>
+                                <input type="text" class="form-control" id="preferenciasInput"
+                                       name="preferencias_musicais" value="{{ user.membro.preferencias_musicais }}">
+                            </div>
+                        {% endif %}
+                        <div class="modal-footer">
+                            <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="saveBtn">Salvar alterações</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END POP UP edit user -->
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#btn-show-eventos").click(function () {
+                $("#tickets").toggleClass("d-none");
+            });
+        });
+        <!-- botão 'Bilhetes de aulas' -->
+        $(document).ready(function () {
+            $("#btn-show-aulas").click(function () {
+                $("#ticketsAulas").toggleClass("d-none");
+            });
+        });
+        <!-- botão Eliminar bilhete evento -->
+        $(document).ready(function () {
+            $("#btn-remove-ticket").click(function () {
+                const bilheteId = $(this).attr('data-id');
+                $.ajax({
+                    url: "{% url 'webdanceteria:apagarBilheteEv_view' bilhete_id=0 %}".replace('0', bilheteId),
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success: function (data) {
+                        $("#tickets").toggleClass("d-none");
+                        $("#tickets").load("{% url 'webdanceteria:profile_view' %}");
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
                 });
             });
-            <!-- botão 'Bilhetes de aulas' -->
-            $(document).ready(function () {
-                $("#btn-show-aulas").click(function () {
-                    $("#ticketsAulas").toggleClass("d-none");
+        });
+        <!-- botão Eliminar bilhete aula -->
+        $(document).ready(function () {
+            $("#btn-remove-ticketAula").click(function () {
+                const bilheteId = $(this).attr('data-id');
+                $.ajax({
+                    url: "{% url 'webdanceteria:apagarBilheteAula_view' bilheteAula_id=0 %}".replace('0', bilheteId),
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success: function (data) {
+                        $("#ticketsAulas").toggleClass("d-none");
+                        $("#ticketsAulas").load("{% url 'webdanceteria:profile_view' %}");
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
                 });
             });
-            <!-- botão Eliminar bilhete evento -->
-            $(document).ready(function () {
-                $("#btn-remove-ticket").click(function () {
-                    const bilheteId = $(this).attr('data-id');
-                    $.ajax({
-                        url: "{% url 'webdanceteria:apagarBilheteEv_view' bilhete_id=0 %}".replace('0', bilheteId),
-                        type: "POST",
-                        data: {
-                            csrfmiddlewaretoken: "{{ csrf_token }}",
-                        },
-                        success: function (data) {
-                            $("#tickets").toggleClass("d-none");
-                            $("#tickets").load("{% url 'webdanceteria:profile_view' %}");
-                        },
-                        error: function (xhr, errmsg, err) {
-                            console.log(xhr.status + ": " + xhr.responseText);
-                        }
-                    });
-                });
-            });
-            <!-- botão Eliminar bilhete aula -->
-            $(document).ready(function () {
-                $("#btn-remove-ticketAula").click(function () {
-                    const bilheteId = $(this).attr('data-id');
-                    $.ajax({
-                        url: "{% url 'webdanceteria:apagarBilheteAula_view' bilheteAula_id=0 %}".replace('0', bilheteId),
-                        type: "POST",
-                        data: {
-                            csrfmiddlewaretoken: "{{ csrf_token }}",
-                        },
-                        success: function (data) {
-                            $("#ticketsAulas").toggleClass("d-none");
-                            $("#ticketsAulas").load("{% url 'webdanceteria:profile_view' %}");
-                        },
-                        error: function (xhr, errmsg, err) {
-                            console.log(xhr.status + ": " + xhr.responseText);
-                        }
-                    });
-                });
-            });
-        </script>
+        });
+    </script>
 
 
-    {% endblock %}
+{% endblock %}
 
 </body>

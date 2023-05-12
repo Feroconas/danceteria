@@ -55,16 +55,50 @@
 </head>
 
 <body>
+
+<header id="header" class="header-inner-pages" >  <!-- class="fixed-top" -->
+    <div class="container d-flex align-items-center justify-content-lg-between ">
+        <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
+        <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
+          maior que a especificada pelo breakpoint "lg"  -->
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Home</a></li>
+                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Sobre nós</a></li>
+                {% block active %}
+                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated %}
+                        <li><a class="nav-link scrollto" href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
+                    {% endif %}
+
+                {% endblock %}
+                <li><a class="nav-link scrollto" href="#footer">Contactos</a></li>
+            </ul>
+        </nav><!-- .navbar -->
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
+        {% else %}
+            <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
+            <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
+        {% endif %}
+
+
+    </div>
+</header>
 {% block content %}
     <!-- ======= Hero Section ======= -->
-    {% include "./header.html" %}
     <section id="hero" class="d-flex align-items-center justify-content-center">
         <div class="container" data-aos="fade-up">
 
             <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
                 <div class="col-lg-8">
                     {% if request.user.is_authenticated %}
-                        <h1 class="mb-3"> Bem vindo/a, {{ request.user|getUtilizador|getNome }} <span>.</span></h1>
+                        <h1 class="mb-3"> Bem vindo/a, {{ request.user|getNome }} <span>.</span></h1>
                     {% else %}
                         <h1> Junta-te a nós <span>.</span></h1>
                     {% endif %}
@@ -122,28 +156,24 @@
                          data-aos-delay="100">
                         <h3> Sobre nós </h3>
                         <p class="fst-italic">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore
-                            magna aliqua.
+                            DANÇ'ARTE é a danceteria mais popular de Portugal desde 2005 e atrai cada vez
+                            mais partipantes, tanto clientes como artistas. Inscreve-te numa das muitas atividades
+                            que temos a oferecer e terás acesso a:
                         </p>
                         <ul>
-                            <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.
+                            <li><i class="ri-check-double-line"></i> Géneros musicais diferenciados: Pop, Raggaeton, House, Hip-hop,
+                                Música popular brasileira, e outros;
                             </li>
-                            <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate
-                                velit.
+                            <li><i class="ri-check-double-line"></i> Vários estilos de dança: Tango, Samba, Breakdance, Salsa, e mais;
                             </li>
-                            <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda
-                                mastiro dolore eu fugiat nulla pariatur.
+                            <li><i class="ri-check-double-line"></i> Acesso a performances de artistas mundialmente conhecidos, como Justin
+                                Timberlake, Chris Brown, Madonna e Chloe Arnold.
                             </li>
                         </ul>
                         <p>
-                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit
-                            in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident
+                            No nosso site poderá comprar bilhetes que garantem o acesso a noites cheias de emoção, luz, e divertimento.
+                            Durante o dia, poderá ter aulas com instrutores altamente qualificados e especializados no estilo de
+                            dança escolhido (mais informações na secção "Eventos").
                         </p>
                     </div>
                 </div>

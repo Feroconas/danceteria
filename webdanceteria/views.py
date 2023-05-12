@@ -12,16 +12,14 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Instrutor
-from webdanceteria.models import Utilizador, Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula
+from webdanceteria.models import Utilizador, Instrutor, Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula, genero_choices
 from .forms import RegisterMemberForm, RegisterInstrutorForm, CriarAulaForm
 from django.contrib.auth.decorators import user_passes_test
 #import templatetags.registerfilters
 
 
 def home(request):
-    user_in_instrutores = request.user.groups.filter(name='Instrutores').exists()
-    return render(request, 'webdanceteria/home.html', {'user_in_instrutores': user_in_instrutores})
+    return render(request, 'webdanceteria/home.html')
 
 
 def login_view(request):
@@ -120,7 +118,7 @@ def profile_view(request):
     bilhetesEvento = BilheteEvento.objects.order_by(F('data_validade'))
     bilhetesAula = BilheteAula.objects.order_by(F('data_validade'))
     return render(request, 'webdanceteria/profile.html',
-                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula})
+                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula, 'genero_choices': genero_choices})
 
 
 @csrf_exempt
@@ -139,12 +137,10 @@ def editUser_view(request):
         userDjango.save()
         return render(request, 'webdanceteria/profile.html')
     else:
-        return HttpResponse("Parâmetros de login inválidos: ")
         return render(request, 'webdanceteria/profile.html')
 
 
 def events_view(request):
-    user_in_instrutores = request.user.groups.filter(name='Instrutores').exists()
     eventos = Evento.objects.exclude(data_hora__isnull=True).order_by(F('data_hora'))
     # Set the locale to a specific language and encoding
     locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
@@ -156,7 +152,7 @@ def events_view(request):
         data_hora_formatada = aula.data_hora.strftime('%d de %B de %Y, %H:%M')
         aula.data_hora = data_hora_formatada
     return render(request, 'webdanceteria/events.html',
-                  {'eventos': eventos, 'aulas': aulas, 'user_in_instrutores': user_in_instrutores})
+                  {'eventos': eventos, 'aulas': aulas})
 
 
 @login_required()
