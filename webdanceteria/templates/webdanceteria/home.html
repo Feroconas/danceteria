@@ -79,12 +79,10 @@
                     {% endif %}
 
                     {% if request.user.is_authenticated %}
-                        <li class="dropdown"><a href="{% url 'webdanceteria:profile_view' %}"><span>Perfil</span> <i
-                                class="bi bi-chevron-down"></i></a>
-                            <ul>
-                                <li><a href="{% url 'webdanceteria:profile_view' %}"> Os meus bilhetes </a></li>
-                            </ul>
-                        </li>
+                        <li><a class="nav-link scrollto" href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
+                        {% if request.user|isDiretor %}
+                            <li><a class="nav-link scrollto" href="{% url 'webdanceteria:register_instrutor_view' %}">Registar Instrutor</a></li>
+                            {% endif %}
                     {% endif %}
                     <li><a class="nav-link scrollto" href="#footer">Contactos</a></li>
                 </ul>
@@ -92,9 +90,6 @@
             </nav><!-- .navbar -->
 
             {% if request.user.is_authenticated %}
-                {% if request.user|isDiretor %}
-                    <li><a href="{% url 'webdanceteria:register_instrutor_view' %}" class="log-btn scrollto ">Registar Instrutor</a></li>
-                {% endif %}
                 <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
             {% else %}
                 <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
