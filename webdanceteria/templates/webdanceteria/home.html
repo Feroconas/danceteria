@@ -54,66 +54,17 @@
 
 </head>
 
-
+<body>
 {% block content %}
-    <body>
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top ">
-        <div class="container d-flex align-items-center justify-content-lg-between">
-
-            <!--  "me-auto" (que centraliza horizontalmente o elemento) e "me-lg-0"
-              (que define uma margem esquerda de 0 para telas grandes). -->
-            <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
-            <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
-              maior que a especificada pelo breakpoint "lg"  -->
-            <nav id="navbar" class="navbar order-last order-lg-0">
-                <ul>
-                    <li><a class="nav-link scrollto active" href="{% url 'webdanceteria:home' %}">Home</a></li>
-                    <li><a class="nav-link scrollto" href="#about">Sobre nós</a></li>
-                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
-                    {% if request.user.is_authenticated %}
-                        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
-                    {% endif %}
-
-                    {% if request.user.is_authenticated %}
-                        <li><a class="nav-link scrollto" href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
-                        {% if request.user|isDiretor %}
-                            <li><a class="nav-link scrollto" href="{% url 'webdanceteria:register_instrutor_view' %}">Registar Instrutor</a></li>
-                            <li><a class="nav-link scrollto" href="{% url 'webdanceteria:criar_aula_view' %}">Criar aula</a></li>
-                            {% endif %}
-                    {% endif %}
-                    <li><a class="nav-link scrollto" href="#footer">Contactos</a></li>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
-            {% else %}
-                <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
-                <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
-            {% endif %}
-
-
-        </div>
-    </header><!-- End Header -->
-
-
     <!-- ======= Hero Section ======= -->
+    {% include "./header.html" %}
     <section id="hero" class="d-flex align-items-center justify-content-center">
         <div class="container" data-aos="fade-up">
 
             <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
                 <div class="col-lg-8">
                     {% if request.user.is_authenticated %}
-                        {% if user_in_instrutores %}
-                            <h1 class="mb-3"> Bem vindo/a, {{ request.user.instrutor.nome }} <span>.</span></h1>
-                        {% else %}
-                            <h1 class="mb-3"> Bem vindo/a, {{ request.user.utilizador.nome }} <span>.</span></h1>
-                        {% endif %}
+                        <h1 class="mb-3"> Bem vindo/a, {{ request.user|getUtilizador|getNome }} <span>.</span></h1>
                     {% else %}
                         <h1> Junta-te a nós <span>.</span></h1>
                     {% endif %}
@@ -231,7 +182,8 @@
                     <ul>
                         <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:home' %}">Home</a></li>
                         <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a
+                                href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
                         <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
                     </ul>
                 </div>

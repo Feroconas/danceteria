@@ -1,3 +1,4 @@
+{% extends "./home.html" %}
 <html lang="en">
 
 <!-- TO DO: colocar spans alinhados e nºs na bar -->
@@ -13,112 +14,12 @@
     {% load static %}
     {% load registerfilters %}
 
-    <!-- CSS do Bootstrap v5.3 -->
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.css' %}">
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.rtl.css' %}">
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.css' %}">
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.rtl.css' %}">
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-utilities.css' %}">
-    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-utilities.rtl.css' %}">
-
-    <!-- Favicons -->
-    <link href="{% static 'webdanceteria/img/favicon.png' %}" rel="icon">
-    <link href="{% static 'webdanceteria/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="{% static 'webdanceteria/css/styles.css' %}" rel="stylesheet">
-
-    <!-- JS do Bootstrap v5.3 -->
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
-
-
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
-
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
-
-
-    <!-- Template Main JS File -->
-    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
-
-
-</head>
-
 <body>
 <!-- ======= Header ======= -->
-<header id="header" class="header-inner-pages">
-    <div class="container d-flex align-items-center justify-content-lg-between ">
-        <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
-        <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
-          maior que a especificada pelo breakpoint "lg"  -->
-        <nav id="navbar" class="navbar order-last order-lg-0">
-            <ul>
-                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Home</a></li>
-                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Sobre nós</a></li>
-                {% block active %}
-                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
-                    {% if request.user.is_authenticated %}
-                        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
-                    {% endif %}
-
-                    {% if request.user.is_authenticated %}
-                        <li class="dropdown"><a class="active" href="{% url 'webdanceteria:profile_view' %}"><span>Perfil</span>
-                            <i
-                                    class="bi bi-chevron-down"></i></a>
-                            <ul>
-                                <li><a href="#tickets"> Os meus bilhetes </a></li>
-                            </ul>
-                        </li>
-                    {% endif %}
-
-                {% endblock %}
-                <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Contactos</a></li>
-            </ul>
-        </nav><!-- .navbar -->
-
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
-        {% else %}
-            <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
-            <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
-        {% endif %}
-
-
-    </div>
-</header><!-- End Header -->
-
-
-<main id="main" style="height: 100vh">
-    <section class="breadcrumbs">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2></h2>
-                <ol>
-                    <li><a href="home.html">Home</a></li>
-                    {% block pageName %}
-                        <li>Perfil</li>
-                    {% endblock %}
-                </ol>
-            </div>
-        </div>
-    </section><!-- End Breadcrumbs -->
 
     {% block content %}
         <!-- About me -->
-        <section class="section">
+        {% include "./header.html" %}
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
 
@@ -274,7 +175,6 @@
                 </div>
                 <!-- end  tickets -->
             </div>
-        </section>
 
 
         <!-- POP UP edit user -->
@@ -346,45 +246,6 @@
         <!-- END POP UP edit user -->
 
         </main>
-
-        <!-- ======= Footer ======= -->
-        <footer id="footer">
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-info">
-                                <h3> Danç'Arte<span>.</span></h3>
-                                <p>
-                                    Rua Novos Descobrimentos <br>
-                                    Lisboa, Portugal<br><br>
-                                    <strong>Phone:</strong> +211 345 327<br>
-                                    <strong>Email:</strong> dancarte@gmail.com<br>
-                                </p>
-                                <div class="social-links mt-3">
-                                    <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-md-6 footer-links">
-                            <h4>Links</h4>
-                            <ul>
-                                <li><i class="bx bx-chevron-right"></i> <a
-                                        href="{% url 'webdanceteria:home' %}">Home</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos</a>
-                                </li>
-                                <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript">
