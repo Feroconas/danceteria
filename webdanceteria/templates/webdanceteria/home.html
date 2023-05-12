@@ -56,7 +56,7 @@
 
 <body>
 
-<header id="header" class="header-inner-pages" >  <!-- class="fixed-top" -->
+<header id="header" class="header-inner-pages">  <!-- class="fixed-top" -->
     <div class="container d-flex align-items-center justify-content-lg-between ">
         <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
         <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
@@ -83,7 +83,8 @@
         {% if request.user.is_authenticated %}
             <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
         {% else %}
-            <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto" style="margin-right: -40px">Registar</a>
+            <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto"
+               style="margin-right: -40px">Registar</a>
             <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
         {% endif %}
 
@@ -107,36 +108,14 @@
             </div>
 
             <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
-                <div class="col-xl-2">
-                    <div class="icon-box">
-                        <i class="ri-store-line"></i>
-                        <h3><a href="">Noite de Samba</a></h3>
+                {% for evento in eventos %}
+                    <div class="col-xl-2">
+                        <div class="icon-box">
+                            <i class="ri-store-line"></i>
+                            <h3><a href="">{{ evento.nome }}</a></h3>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-2">
-                    <div class="icon-box">
-                        <i class="ri-bar-chart-box-line"></i>
-                        <h3><a href="">Aula de hip hop</a></h3>
-                    </div>
-                </div>
-                <div class="col-xl-2 ">
-                    <div class="icon-box">
-                        <i class="ri-calendar-todo-line"></i>
-                        <h3><a href="">Noite de tango</a></h3>
-                    </div>
-                </div>
-                <div class="col-xl-2 ">
-                    <div class="icon-box">
-                        <i class="ri-paint-brush-line"></i>
-                        <h3><a href="">Magni Dolores</a></h3>
-                    </div>
-                </div>
-                <div class="col-xl-2 ">
-                    <div class="icon-box">
-                        <i class="ri-database-2-line"></i>
-                        <h3><a href="">Nemos Enimade</a></h3>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
 
         </div>
@@ -161,18 +140,23 @@
                             que temos a oferecer e terás acesso a:
                         </p>
                         <ul>
-                            <li><i class="ri-check-double-line"></i> Géneros musicais diferenciados: Pop, Raggaeton, House, Hip-hop,
+                            <li><i class="ri-check-double-line"></i> Géneros musicais diferenciados: Pop, Raggaeton,
+                                House, Hip-hop,
                                 Música popular brasileira, e outros;
                             </li>
-                            <li><i class="ri-check-double-line"></i> Vários estilos de dança: Tango, Samba, Breakdance, Salsa, e mais;
+                            <li><i class="ri-check-double-line"></i> Vários estilos de dança: Tango, Samba, Breakdance,
+                                Salsa, e mais;
                             </li>
-                            <li><i class="ri-check-double-line"></i> Acesso a performances de artistas mundialmente conhecidos, como Justin
+                            <li><i class="ri-check-double-line"></i> Acesso a performances de artistas mundialmente
+                                conhecidos, como Justin
                                 Timberlake, Chris Brown, Madonna e Chloe Arnold.
                             </li>
                         </ul>
                         <p>
-                            No nosso site poderá comprar bilhetes que garantem o acesso a noites cheias de emoção, luz, e divertimento.
-                            Durante o dia, poderá ter aulas com instrutores altamente qualificados e especializados no estilo de
+                            No nosso site poderá comprar bilhetes que garantem o acesso a noites cheias de emoção, luz,
+                            e divertimento.
+                            Durante o dia, poderá ter aulas com instrutores altamente qualificados e especializados no
+                            estilo de
                             dança escolhido (mais informações na secção "Eventos").
                         </p>
                     </div>

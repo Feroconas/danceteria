@@ -19,7 +19,8 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 def home(request):
-    return render(request, 'webdanceteria/home.html')
+    eventos = Evento.objects.order_by('-id')[:5]
+    return render(request, 'webdanceteria/home.html', {'eventos': eventos})
 
 
 def login_view(request):
