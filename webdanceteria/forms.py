@@ -74,8 +74,7 @@ class RegisterInstrutorForm(forms.ModelForm):
 
 
 class CriarAulaForm(forms.ModelForm):
-
-    #data_hora = forms.DateTimeInput(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control'}))
+    data_hora = forms.DateTimeField(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control', 'style': 'width: 250px'}))
 
     class Meta:
         model = AulaDanca
@@ -87,8 +86,7 @@ class CriarAulaForm(forms.ModelForm):
             'instrutor_id': 'Instrutor'
         }
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}),
-            #'data_hora': forms.DateTimeField(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control'}))
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 200px', 'placeholder': 'Nome da aula'}),
             #'preco_bilhete': forms.DecimalField(max_digits=6, decimal_places=2, default=None),
         }
         label_suffix = ':'
