@@ -13,9 +13,8 @@ from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Instrutor
-from webdanceteria.forms import RegisterMemberForm
 from webdanceteria.models import Utilizador, Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula
-from .forms import RegisterMemberForm
+from .forms import RegisterMemberForm, RegisterInstrutorForm
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -42,7 +41,7 @@ def login_view(request):
         return render(request, 'webdanceteria/login.html')
 
 
-def register_view(request):
+def register_member_view(request):
     if request.method == 'POST':
         form = RegisterMemberForm(request.POST)
         if form.is_valid():
@@ -52,7 +51,7 @@ def register_view(request):
                 form.cleaned_data['password']
             )
             nivel_iniciante = NivelMembro.objects.get(id_nivel=1)
-            a = Membro(
+            membro = Membro(
                 user=user,
                 nome=form.cleaned_data['nome'],
                 email=form.cleaned_data['email'],
@@ -62,12 +61,38 @@ def register_view(request):
                 preferencias_musicais=form.cleaned_data['preferencias_musicais'],
                 nivel_membro=nivel_iniciante,
             )
-            a.save()
+            membro.save()
 
             return redirect('webdanceteria:login_view')
     else:
         form = RegisterMemberForm()
-    return render(request, 'webdanceteria/register.html', {'form': form})
+    return render(request, 'webdanceteria/registermember.html', {'form': form})
+
+
+def register_instrutor_view(request):
+    if request.method == 'POST':
+        form = RegisterInstrutorForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                form.cleaned_data['username'],
+                form.cleaned_data['email'],
+                form.cleaned_data['password']
+            )
+            instrutor = Instrutor(
+                user=user,
+                nome=form.cleaned_data['nome'],
+                email=form.cleaned_data['email'],
+                genero=form.cleaned_data['genero'],
+                descricao=form.cleaned_data['descricao'],
+                data_nascimento=form.cleaned_data['data_nascimento'],
+                especializacao=form.cleaned_data['especializacao']
+            )
+            instrutor.save()
+
+            return redirect('webdanceteria:home')
+    else:
+        form = RegisterInstrutorForm()
+    return render(request, 'webdanceteria/registerinstrutor.html', {'form': form})
 
 
 # @login_required

@@ -37,7 +37,6 @@ class Categoria(models.Model):
         return self.nome
 
 
-
 class Utilizador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     nome = models.CharField(max_length=50)
