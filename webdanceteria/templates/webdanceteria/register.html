@@ -22,11 +22,15 @@
                 <h2> Por favor, prenche os seguintes dados </h2>
 
                 <div class="row gy-2 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
-                    <form method="post" class="login-form">
+                    <form method="post" class="login-form" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         {{ form.as_div }}
-
+                        {% if form.imagem_perfil.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.imagem_perfil.errors }}
+                            </div>
+                        {% endif %}
                         <div class="my-3">
                             <div class="loading">Carregando</div>
                             <div class="error-message"></div>
