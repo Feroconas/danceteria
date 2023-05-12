@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group, Permission
 
 #acionado sempre que um objeto Instrutor for criado - é adicionado ao grupo Instrutores
 @receiver(post_save, sender=Instrutor)
-def adicionarIntrutorGrupo(sender, instance, created, **kwargs):
+def adicionarInstrutorGrupo(sender, instance, created, **kwargs):
     if created:
         group, created = Group.objects.get_or_create(name='Instrutores')
         permission1, created = Permission.objects.get_or_create(codename='add_auladanca')

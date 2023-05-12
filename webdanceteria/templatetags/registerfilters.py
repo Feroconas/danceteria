@@ -1,5 +1,5 @@
 from django import template
-
+from django.conf import settings
 from webdanceteria.models import Membro, Instrutor, Diretor
 
 register = template.Library()
@@ -53,7 +53,7 @@ def getGenero(user):
 
 @register.filter
 def getImagemPerfil(user):
-    return user.imagem_perfil
+    return f"{settings.MEDIA_URL}{user.imagem_perfil}"
 
 
 @register.filter
