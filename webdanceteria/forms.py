@@ -1,5 +1,8 @@
 from django import forms
 from .models import genero_choices, Membro, Instrutor, Categoria
+from django.forms import SplitDateTimeWidget
+
+from .models import genero_choices, Membro, Instrutor, Categoria, AulaDanca
 from datetime import date, timedelta
 
 
@@ -68,3 +71,25 @@ class RegisterInstrutorForm(forms.ModelForm):
         if idade < 3 or idade > 100:
             raise forms.ValidationError("Deverá ter entre 3 a 100 anos de idade para se poder registar.")
         return data
+
+
+class CriarAulaForm(forms.ModelForm):
+
+    #data_hora = forms.DateTimeInput(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = AulaDanca
+        fields = ['nome', 'data_hora', 'preco_bilhete', 'bilhetes_disponiveis', 'instrutor_id', 'nivel_aconselhado']
+        labels = {
+            'nome': 'Nome da aula',
+            'preco_bilhete': 'Preço do bilhete (€)',
+            'bilhetes_disponiveis': 'Bilhetes disponíveis para venda',
+            'instrutor_id': 'Instrutor'
+        }
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}),
+            #'data_hora': forms.DateTimeField(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control'}))
+            #'preco_bilhete': forms.DecimalField(max_digits=6, decimal_places=2, default=None),
+        }
+        label_suffix = ':'
+        attrs = {'class': 'register-form'}

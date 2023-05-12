@@ -14,8 +14,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Instrutor
 from webdanceteria.models import Utilizador, Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula
-from .forms import RegisterMemberForm, RegisterInstrutorForm
+from .forms import RegisterMemberForm, RegisterInstrutorForm, CriarAulaForm
 from django.contrib.auth.decorators import user_passes_test
+#import templatetags.registerfilters
 
 
 def home(request):
@@ -118,7 +119,8 @@ def logout_view(request):
 def profile_view(request):
     bilhetesEvento = BilheteEvento.objects.order_by(F('data_validade'))
     bilhetesAula = BilheteAula.objects.order_by(F('data_validade'))
-    return render(request, 'webdanceteria/profile.html', {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula})
+    return render(request, 'webdanceteria/profile.html',
+                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula})
 
 
 @csrf_exempt
@@ -153,7 +155,8 @@ def events_view(request):
     for aula in aulas:
         data_hora_formatada = aula.data_hora.strftime('%d de %B de %Y, %H:%M')
         aula.data_hora = data_hora_formatada
-    return render(request, 'webdanceteria/events.html', {'eventos': eventos, 'aulas': aulas, 'user_in_instrutores': user_in_instrutores})
+    return render(request, 'webdanceteria/events.html',
+                  {'eventos': eventos, 'aulas': aulas, 'user_in_instrutores': user_in_instrutores})
 
 
 @login_required()
@@ -167,7 +170,8 @@ def comprarBilheteEv_view(request, evento_id):
     if evento.bilhetes_disponiveis > 0:
         evento.bilhetes_disponiveis -= 1
         evento.save()
-        BilheteEvento.objects.create(comprador=comprador, evento=evento, data_compra=data_compra, data_validade=data_validade,
+        BilheteEvento.objects.create(comprador=comprador, evento=evento, data_compra=data_compra,
+                                     data_validade=data_validade,
                                      preco=preco)
         comprador.pontos += 7
         comprador.save()
@@ -211,7 +215,8 @@ def comprarBilheteAula_view(request, aula_id):
         aulaDanca.bilhetes_disponiveis -= 1
         aulaDanca.participantes += 1
         aulaDanca.save()
-        BilheteAula.objects.create(comprador=comprador, aula=aulaDanca, data_compra=data_compra, data_validade=data_validade,
+        BilheteAula.objects.create(comprador=comprador, aula=aulaDanca, data_compra=data_compra,
+                                   data_validade=data_validade,
                                    preco=preco)
         comprador.pontos += 5
         comprador.save()
@@ -244,5 +249,15 @@ def apagarBilheteAula_view(request, bilheteAula_id):
     else:
         return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
 
-# @user_passes_test(is_instrutor)
-# def criar_aula(request):
+
+    #@user_passes_test(isInstrutor)
+
+def criar_aula_view(request):
+    if request.method == 'POST':
+        form = CriarAulaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('webdanceteria/events.html')
+    else:
+        form = CriarAulaForm()
+    return render(request, 'webdanceteria/criarAula.html', {'form': form})

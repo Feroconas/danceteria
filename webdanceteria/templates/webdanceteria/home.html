@@ -82,6 +82,7 @@
                         <li><a class="nav-link scrollto" href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
                         {% if request.user|isDiretor %}
                             <li><a class="nav-link scrollto" href="{% url 'webdanceteria:register_instrutor_view' %}">Registar Instrutor</a></li>
+                            <li><a class="nav-link scrollto" href="{% url 'webdanceteria:criar_aula_view' %}">Criar aula</a></li>
                             {% endif %}
                     {% endif %}
                     <li><a class="nav-link scrollto" href="#footer">Contactos</a></li>
