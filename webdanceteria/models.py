@@ -96,24 +96,25 @@ class AulaDanca(models.Model):
 
 
 class Bilhete(models.Model):
-    comprador = models.ForeignKey(Membro, on_delete=models.PROTECT)
+    comprador = models.ForeignKey(User, on_delete=models.CASCADE)
     data_compra = models.DateTimeField()
     data_validade = models.DateTimeField()
     preco = models.DecimalField(max_digits=6, decimal_places=2)
+    especial = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
 
 
 class BilheteEvento(Bilhete):
-    evento = models.ForeignKey(Evento, on_delete=models.PROTECT)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Bilhete {self.id} para {self.evento.nome}'
 
 
 class BilheteAula(Bilhete):
-    aula = models.ForeignKey(AulaDanca, on_delete=models.PROTECT)
+    aula = models.ForeignKey(AulaDanca, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Bilhete {self.id} para {self.aula.nome}'

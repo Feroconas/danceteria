@@ -14,14 +14,14 @@
 
 
 </head>
-<body>
+<body class="modal-open" dada-bs-padding-right="0px" style="padding-right: 0">
 <!-- =====
 
 
 
 
 {% block content %}
-    <!-- ======= Events Section ======= -->
+    <!- ======= Events Section ======= -->
     <main>
         <section class="events">
             <div class="container" data-aos="fade-up">
@@ -36,12 +36,12 @@
                     {% for evento in eventos %}
                         <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
                              data-aos="zoom-in" data-aos-delay="100">
-                            <div class="event-box" style="width: 400px;">
+                            <div class="event-box" style="width: 400px;" data-bs-toggle="modal"
+                                 data-bs-target="#evento-modal-{{ evento.id }}">
                                 <div class="icon"><img style="width: 40px"
                                                        src="{% static 'webdanceteria/img/eventIcon.png' %}" alt="event">
                                 </div>
-                                <h4 data-bs-toggle="modal"
-                                    data-bs-target="#evento-modal-{{ evento.id }}">{{ evento.nome }}</h4>
+                                <h4>{{ evento.nome }}</h4>
                                 <p>{{ evento.data_hora }}</p>
                                 <p>{{ evento.descricao|truncatechars:70 }}{% if evento.descricao|length > 70 %}
                                     ...{% endif %}</p>
@@ -134,7 +134,12 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css"
+          integrity="sha512-f6gjdlrW/HdqZ5hx8Mq5RKM5h8UBHl6bDTh2Vr9guU/XFR+SuydZJY3VT8vyqXksF+Nc6WJ4sZT9C9JpYXMr+A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
+
+
         $(document).ready(function () {
             $("#btn-hide-aulas").click(function () {
                 $("#aulas").toggleClass("d-none");
@@ -143,22 +148,55 @@
 
         $(document).ready(function () {
             $(".comprar-bilhete-btn").click(function () {
-                var eventoId = $(this).attr('data-evento-id');
+
+                const eventoId = $(this).attr('data-evento-id');
                 $.ajax({
                     url: "{% url 'webdanceteria:comprarBilheteEv_view' evento_id=0 %}".replace('0', eventoId),
                     type: "POST",
                     data: {
                         csrfmiddlewaretoken: "{{ csrf_token }}",
                     },
-                    success: function (data) {
-                        // Aqui você pode exibir uma mensagem de sucesso ou redirecionar o usuário para outra página
-                        // Fechar a janela pop-up
 
-                        $("#evento-modal-" + eventoId).modal("hide");
+
+                    dataType: "json",
+                    success: function (response, status, xhr) {
+                        console.log(response)
+                        if (response.pontos) {
+                            swal.fire({
+                                title: response.mensagem,
+                                html:
+                                    "<p> Bilhetes disponíveis: " + response.bilhetes_disponiveis + "</p>" +
+                                    "<p> Ganhaste " + response.pontos + " pontos! </p>",
+                                icon: "success",
+                                confirmButtonText: "OK",
+                            })
+                        } else if (response.bilhetes_disponiveis) {
+                            swal.fire({
+                                title: response.mensagem,
+                                text: "Bilhetes disponíveis: " + response.bilhetes_disponiveis,
+                                icon: "success",
+                                confirmButtonText: "OK",
+                            })
+
+                        } else if (response.mensagem) {
+                            swal.fire({
+                                title: response.mensagem,
+                                icon: "error",
+                                confirmButtonText: "OK",
+                            })
+                        }
+
+                        // Fechar a janela pop-up
+                        $('.modal-backdrop').remove();
+                        $("#evento-modal-" + eventoId).hide();
+                        $('body').css('overflow-y', 'scroll');
+                        $('body').css('padding-right', '0');
+
                     },
                     error: function (xhr, errmsg, err) {
                         console.log(xhr.status + ": " + xhr.responseText);
                     }
+
                 });
             });
         });
@@ -175,8 +213,8 @@
                     success: function (data) {
                         // Aqui você pode exibir uma mensagem de sucesso ou redirecionar o usuário para outra página
                         // Fechar a janela pop-up
-
-                        $("#aula-modal-" + aulaId).modal("hide");
+                        $('.modal-backdrop').remove();
+                        $("#aula-modal-" + aulaId).hide();
                     },
                     error: function (xhr, errmsg, err) {
                         console.log(xhr.status + ": " + xhr.responseText);

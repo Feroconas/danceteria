@@ -144,7 +144,7 @@
                                 ...{% endif %}</p>
 
                         <div class="removeBtn-container">
-                             <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
+                            <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
                                 Eliminar
                             </button>
                         </div>
@@ -189,7 +189,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{% url 'webdanceteria:editUser_view' %}">
+                    <form method="post"  enctype="multipart/form-data" action="{% url 'webdanceteria:editUser_view' %}">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="nameInput" class="form-label" style="width: auto;">Nome</label>
@@ -237,13 +237,16 @@
                                        name="preferencias_musicais" value="{{ user.membro.preferencias_musicais }}">
                             </div>
                         {% endif %}
+
+                        <div class="mb-3">
+                            <label for="imagemPerfilInput" class="form-label">Imagem de Perfil</label>
+                            <input type="file" class="form-control" id="imagemPerfilInput"
+                                   name="imagem_perfil" value="{{ user|getImagemPerfil }}">
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
                             <button type="submit" class="saveBtn">Salvar alterações</button>
                         </div>
-                        {% if error_message %}
-                            <div class="alert alert-danger">{{ error_message }}</div>
-                        {% endif %}
                     </form>
                 </div>
 
@@ -252,7 +255,6 @@
     </div>
     <!-- END POP UP edit user -->
 
-    </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">

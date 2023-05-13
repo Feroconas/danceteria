@@ -25,7 +25,9 @@ h6 {
     font-family: "Raleway", sans-serif;
 }
 
-
+/*html{*/
+/*    overflow-y: scroll; !important;*/
+/*}*/
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -39,7 +41,6 @@ h6 {
 #header.header-inner-pages {
     background: #1f144a;
 }
-
 
 
 #header .logo {
@@ -350,155 +351,153 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: #1f144a;
-  color: #fff;
-  font-size: 14px;
+    background: #1f144a;
+    color: #fff;
+    font-size: 14px;
 }
 
 #footer .footer-top {
-  background: #1f144a;
-  border-bottom: 1px solid #222222;
-  padding: 40px 0 0px 0;
+    background: #1f144a;
+    border-bottom: 1px solid #222222;
+    padding: 40px 0 0px 0;
 }
 
 #footer .footer-top .footer-info {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 #footer .footer-top .footer-info h3 {
-  font-size: 28px;
-  margin: 0 0 20px 0;
-  padding: 2px 0 2px 0;
-  line-height: 1;
-  font-weight: 700;
-  text-transform: uppercase;
+    font-size: 28px;
+    margin: 0 0 20px 0;
+    padding: 2px 0 2px 0;
+    line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 #footer .footer-top .footer-info h3 span {
-  color: #a996ff;
+    color: #a996ff;
 }
 
 #footer .footer-top .footer-info p {
-  font-size: 14px;
-  line-height: 24px;
-  margin-bottom: 0;
-  font-family: "Raleway", sans-serif;
-  color: #fff;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+    font-family: "Raleway", sans-serif;
+    color: #fff;
 }
 
 #footer .footer-top .social-links a {
-  font-size: 18px;
-  display: inline-block;
-  background: #292929;
-  color: #fff;
-  line-height: 1;
-  padding: 8px 0;
-  margin-right: 4px;
-  border-radius: 4px;
-  text-align: center;
-  width: 36px;
-  height: 36px;
-  transition: 0.3s;
+    font-size: 18px;
+    display: inline-block;
+    background: #292929;
+    color: #fff;
+    line-height: 1;
+    padding: 8px 0;
+    margin-right: 4px;
+    border-radius: 4px;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s;
 }
 
 #footer .footer-top .social-links a:hover {
-  background: #a996ff;
-  color: #151515;
-  text-decoration: none;
+    background: #a996ff;
+    color: #151515;
+    text-decoration: none;
 }
 
 #footer .footer-top h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-  position: relative;
-  padding-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    position: relative;
+    padding-bottom: 12px;
 }
 
 #footer .footer-top .footer-links {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 #footer .footer-top .footer-links ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 #footer .footer-top .footer-links ul i {
-  padding-right: 2px;
-  color: #a996ff;
-  font-size: 18px;
-  line-height: 1;
+    padding-right: 2px;
+    color: #a996ff;
+    font-size: 18px;
+    line-height: 1;
 }
 
 #footer .footer-top .footer-links ul li {
-  padding: 10px 0;
-  display: flex;
-  align-items: center;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
 }
 
 #footer .footer-top .footer-links ul li:first-child {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 #footer .footer-top .footer-links ul a {
-  color: #fff;
-  transition: 0.3s;
-  display: inline-block;
-  line-height: 1;
+    color: #fff;
+    transition: 0.3s;
+    display: inline-block;
+    line-height: 1;
 }
 
 #footer .footer-top .footer-links ul a:hover {
-  color: #a996ff;
+    color: #a996ff;
 }
 
 #footer .footer-top .footer-newsletter form {
-  margin-top: 30px;
-  background: #fff;
-  padding: 6px 10px;
-  position: relative;
-  border-radius: 4px;
+    margin-top: 30px;
+    background: #fff;
+    padding: 6px 10px;
+    position: relative;
+    border-radius: 4px;
 }
 
 #footer .footer-top .footer-newsletter form input[type=email] {
-  border: 0;
-  padding: 4px;
-  width: calc(100% - 110px);
+    border: 0;
+    padding: 4px;
+    width: calc(100% - 110px);
 }
 
 #footer .footer-top .footer-newsletter form input[type=submit] {
-  position: absolute;
-  top: 0;
-  right: -2px;
-  bottom: 0;
-  border: 0;
-  background: none;
-  font-size: 16px;
-  padding: 0 20px;
-  background: #a996ff;
-  color: #151515;
-  transition: 0.3s;
-  border-radius: 0 4px 4px 0;
+    position: absolute;
+    top: 0;
+    right: -2px;
+    bottom: 0;
+    border: 0;
+    background: none;
+    font-size: 16px;
+    padding: 0 20px;
+    background: #a996ff;
+    color: #151515;
+    transition: 0.3s;
+    border-radius: 0 4px 4px 0;
 }
 
 #footer .footer-top .footer-newsletter form input[type=submit]:hover {
-  background: #a996ff;
+    background: #a996ff;
 }
 
 #footer .copyright {
-  text-align: center;
-  padding-top: 30px;
+    text-align: center;
+    padding-top: 30px;
 }
 
 #footer .credits {
-  padding-top: 10px;
-  text-align: center;
-  font-size: 13px;
-  color: #fff;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    color: #fff;
 }
-
-
 
 
 /*--------------------------------------------------------------
@@ -574,7 +573,8 @@ section {
     text-align: center;
     padding: 15px;
 }
-.login-form li{
+
+.login-form li {
     color: #a52834;
     font-weight: bold;
 }
@@ -613,29 +613,30 @@ section {
     padding: 10px 12px;
 }
 
-.login-form label{
+.login-form label {
     color: #ffffff;
 }
 
-.login-form legend{
+.login-form legend {
     color: #ffffff;
 }
 
-.login-form fieldset legend{
+.login-form fieldset legend {
     font-size: 24px;
 }
-.login-form fieldset label{
-      display: inline-block;
-  width: 100px; /* Adjust the width as needed */
-  vertical-align: middle;
+
+.login-form fieldset label {
+    display: inline-block;
+    width: 100px; /* Adjust the width as needed */
+    vertical-align: middle;
 
 
 }
 
-.login-form fieldset input{
+.login-form fieldset input {
 
-  display: inline-block;
-  vertical-align: middle;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .login-form .btnlog {
@@ -749,7 +750,7 @@ section {
     padding: 10px 0;
 }
 
-.about-list label, .about-text label{
+.about-list label, .about-text label {
     color: #322791;
     font-weight: 600;
     width: 90px;
@@ -848,7 +849,7 @@ section {
     color: white;
 }
 
-.form-label{
+.form-label {
     color: #322791;
     font-weight: 600;
     width: auto;
@@ -856,16 +857,15 @@ section {
 
 }
 
-.modalTitle{
+.modalTitle {
     font-family: "Open Sans", sans-serif;
     font-weight: 550;
 }
 
-
 /*--------------------------------------------------------------
 # Events
 --------------------------------------------------------------*/
-.events .event-box, .tickets-box{
+.events .event-box, .tickets-box {
     text-align: center;
     border: 1px solid #ebebeb;
     padding: 80px 20px;
@@ -893,7 +893,7 @@ section {
     transition: ease-in-out 0.3s;
 }
 
-.tickets-box .icon img{
+.tickets-box .icon img {
     width: 40px;
 }
 
@@ -901,7 +901,7 @@ section {
     font-weight: 700;
     margin-bottom: 15px;
     font-size: 24px;
-        color: #151515;
+    color: #151515;
     transition: ease-in-out 0.3s;
 }
 
@@ -915,13 +915,13 @@ section {
     color: #adaffe;
 }
 
-.events .event-box p , .tickets-box p{
+.events .event-box p, .tickets-box p {
     line-height: 24px;
     font-size: 14px;
     margin-bottom: 0;
 }
 
-.events .event-box:hover{
+.events .event-box:hover {
     border-color: #fff;
     box-shadow: 0px 0 25px 0 rgba(0, 0, 0, 0.1);
     transform: translateY(-10px);
@@ -949,14 +949,14 @@ section {
     background: #ac97ff;
 }
 
-    /* pop up */
-.contentModal{
-       font-family: "Open Sans", sans-serif;
+/* pop up */
+.contentModal {
+    font-family: "Open Sans", sans-serif;
 }
 
-.removeBtn-container{
+.removeBtn-container {
 
-     margin-top: 30px;
+    margin-top: 30px;
     margin-right: 10px;
     margin-bottom: -10px;
 }
