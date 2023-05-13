@@ -112,7 +112,7 @@
                     <div class="col-xl-2">
                         <div class="icon-box">
                             <i class="ri-store-line"></i>
-                            <h3><a href="">{{ evento.nome }}</a></h3>
+                            <h3><a href="{% url 'webdanceteria:events_view' %}">{{ evento.nome }}</a></h3>
                         </div>
                     </div>
                 {% endfor %}

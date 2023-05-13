@@ -715,6 +715,7 @@ section {
 }
 
 .about-text {
+    margin-top: 20px;
     margin-bottom: 30px;
     margin-left: 10px;
 }
@@ -757,8 +758,7 @@ section {
 }
 
 .about-avatar {
-    margin-bottom: 100px;
-
+    margin-bottom: 30px;
 }
 
 .about-avatar img {
@@ -929,6 +929,7 @@ section {
 }
 
 .button-container {
+    margin-bottom: 20px;
     margin-top: 40px;
     justify-content: center;
     align-items: center;

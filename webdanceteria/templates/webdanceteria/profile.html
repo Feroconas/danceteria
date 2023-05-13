@@ -83,29 +83,33 @@
 
         <!-- start bar -->
         <div class="bar">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="bar-data text-center">
-                        <h6 class="number h2" data-to="500" data-speed="500">
-                            {{ request.user.membro.nivel_membro.id_nivel }} </h6>
-                        <p>Nível</p>
+            <div class="row justify-content-center">
+                {% if user|isMembro %}
+                    <div class="col-lg-3">
+                        <div class="bar-data text-center">
+                            <h6 class="number h2" data-to="500" data-speed="500">
+                                {{ request.user.membro.nivel_membro.id_nivel }} </h6>
+                            <p>Nível</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="bar-data text-center">
-                        {% if user|isInstrutor %}
-                            <h6 class="number h2" data-to="150" data-speed="150">
-                                {{ request.user.instrutor.especializacao }}
-                            </h6>
-                            <p>Especialização</p>
-                        {% elif user|isMembro %}
-                            <h6 class="number h2" data-to="150" data-speed="150">
-                                {{ request.user.membro.pontos }}
-                            </h6>
-                            <p>Pontos</p>
-                        {% endif %}
+                {% endif %}
+                {% if user|isMembro or user|isInstrutor %}
+                    <div class="col-lg-3">
+                        <div class="bar-data text-center">
+                            {% if user|isInstrutor %}
+                                <h6 class="number h2" data-to="150" data-speed="150">
+                                    {{ request.user.instrutor.especializacao }}
+                                </h6>
+                                <p>Especialização</p>
+                            {% elif user|isMembro %}
+                                <h6 class="number h2" data-to="150" data-speed="150">
+                                    {{ request.user.membro.pontos }}
+                                </h6>
+                                <p>Pontos</p>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
                 <div class="col-lg-3">
                     <div class="bar-data text-center">
                         <h6 class="number h2" data-to="850" data-speed="850">850</h6>
@@ -140,7 +144,7 @@
                                 ...{% endif %}</p>
 
                         <div class="removeBtn-container">
-                            <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
+                             <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
                                 Eliminar
                             </button>
                         </div>
