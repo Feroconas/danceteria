@@ -12,10 +12,10 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from webdanceteria.models import Utilizador, Instrutor, Membro, NivelMembro, Evento, AulaDanca, BilheteEvento, BilheteAula, genero_choices
+from webdanceteria.models import *
+from datetime import date, timedelta, datetime
 from .forms import RegisterMemberForm, RegisterInstrutorForm, CriarAulaForm
 from django.contrib.auth.decorators import user_passes_test
-#import templatetags.registerfilters
 
 
 def home(request):
@@ -96,19 +96,6 @@ def register_instrutor_view(request):
     return render(request, 'webdanceteria/registerinstrutor.html', {'form': form})
 
 
-# @login_required
-# def criar_instrutor(request):
-#   if request.method == 'POST':
-#      form = InstrutorForm(request.POST)
-#     if form.is_valid():
-#        instrutor = form.save(commit=False)
-#       instrutor.user = request.user
-#      instrutor.save()
-#     return redirect('home')
-# else:
-#    form = InstrutorForm()
-# return render(request, 'criar_instrutor.html', {'form': form})
-
 
 def logout_view(request):
     logout(request)
@@ -119,12 +106,16 @@ def profile_view(request):
     bilhetesEvento = BilheteEvento.objects.order_by(F('data_validade'))
     bilhetesAula = BilheteAula.objects.order_by(F('data_validade'))
     return render(request, 'webdanceteria/profile.html',
-                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula, 'genero_choices': genero_choices})
+                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula, 'genero_choices': genero_choices })
 
 
 @csrf_exempt
 def editUser_view(request):
     if request.method == 'POST':
+        datanascimento = datetime.strptime(request.POST.get('data_nascimento'), '%Y-%m-%d').date()
+        idade = (date.today() - datanascimento) // timedelta(days=365.2425)
+        if idade < 3 or idade > 100:
+            return render(request, 'webdanceteria/profile.html', {'genero_choices': genero_choices})
         userDjango = request.user
         userDjango.username = request.POST.get('username')
         user = request.user.membro
@@ -132,13 +123,13 @@ def editUser_view(request):
         user.email = request.POST.get('email')
         user.genero = request.POST.get('genero')
         user.descricao = request.POST.get('descricao')
-        user.data_nascimento = request.POST.get('data_nascimento')
+        user.data_nascimento = datanascimento
         user.preferencias_musicais = request.POST.get('preferencias_musicais')
         user.save()
         userDjango.save()
-        return render(request, 'webdanceteria/profile.html')
+        return render(request, 'webdanceteria/profile.html', {'genero_choices': genero_choices})
     else:
-        return render(request, 'webdanceteria/profile.html')
+        return render(request, 'webdanceteria/profile.html', {'genero_choices': genero_choices})
 
 
 def events_view(request):

@@ -11,9 +11,7 @@ def adicionarInstrutorGrupo(sender, instance, created, **kwargs):
         group, created = Group.objects.get_or_create(name='Instrutores')
         permission1, created = Permission.objects.get_or_create(codename='add_auladanca')
         permission2, created = Permission.objects.get_or_create(codename='delete_auladanca')
-        permission3, created = Permission.objects.get_or_create(codename='add_evento')
-        permission4, created = Permission.objects.get_or_create(codename='delete_evento')
-        for permission in (permission1, permission2, permission3, permission4):
+        for permission in (permission1, permission2):
             if permission not in group.permissions.all():
                 group.permissions.add(permission)
         instance.user.groups.add(group)

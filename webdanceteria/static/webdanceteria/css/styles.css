@@ -358,7 +358,7 @@ section {
 #footer .footer-top {
   background: #1f144a;
   border-bottom: 1px solid #222222;
-  padding: 60px 0 30px 0;
+  padding: 40px 0 0px 0;
 }
 
 #footer .footer-top .footer-info {
@@ -762,7 +762,8 @@ section {
 }
 
 .about-avatar img {
-    width: 100px;
+    margin-top: 30px;
+    width: 200px;
     shadow: 0 0 30px rgba(31, 45, 61, 0.125);
     /* para arredondar imagens quadradas */
     border-radius: 50%;
@@ -773,7 +774,11 @@ section {
 }
 
 .bar {
+    display: flex;
+    flex-wrap: nowrap;
     padding: 22px 20px;
+    justify-content: center;
+    align-items: center;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
@@ -794,6 +799,10 @@ section {
     font-weight: 600;
     margin-top: 5px;
 
+}
+
+.bar .row {
+    width: 800px;
 }
 
 .editBtn {

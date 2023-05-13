@@ -1,6 +1,8 @@
+import os.path
+
 from django import template
 from django.conf import settings
-from webdanceteria.models import Membro, Instrutor, Diretor
+from webdanceteria.models import Membro, Instrutor, Diretor, Utilizador
 
 register = template.Library()
 
@@ -43,7 +45,10 @@ def getGenero(user):
 
 @register.filter
 def getImagemPerfil(user):
-    return f"{settings.MEDIA_URL}{getUtilizador(user).imagem_perfil}"
+    if getUtilizador(user).imagem_perfil:
+        return f"{settings.MEDIA_URL}{getUtilizador(user).imagem_perfil}"
+    else:
+        return None
 
 
 @register.filter
@@ -53,4 +58,10 @@ def getDescricao(user):
 
 @register.filter
 def getDataNascimento(user):
+
     return getUtilizador(user).data_nascimento
+
+@register.filter
+def getDataNascimentoFormatted(user):
+    date = getUtilizador(user).data_nascimento
+    return date.strftime('%Y-%m-%d')

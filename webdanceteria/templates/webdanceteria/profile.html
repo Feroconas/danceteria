@@ -26,7 +26,7 @@
             <div class="col-lg-6" style="display: flex;flex-direction: column;align-items: center;">
                 <div class="about-avatar">
                     {% if request.user|getImagemPerfil %}
-                        <img src="{% static request.user|getImagemPerfil %}" title="" alt="">
+                        <img src="{% static user|getImagemPerfil %}" title="" alt="">
                     {% else %}
                         <img src="{% static 'webdanceteria/img/user.png' %}" title="" alt="">
                     {% endif %}
@@ -112,13 +112,13 @@
                 {% endif %}
                 <div class="col-lg-3">
                     <div class="bar-data text-center">
-                        <h6 class="number h2" data-to="850" data-speed="850">850</h6>
+                        <h6 class="number h2" data-to="850" data-speed="850">853</h6>
                         <p>Aulas</p>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="bar-data text-center">
-                        <h6 class="number h2" data-to="190" data-speed="190">190</h6>
+                        <h6 class="number h2" data-to="190" data-speed="190">170</h6>
                         <p>Eventos</p>
                     </div>
                 </div>
@@ -222,7 +222,7 @@
                         <div class="mb-3">
                             <label for="dataInput" class="form-label">Data de nascimento</label>
                             <input type="date" class="form-control" id="dataInput" name="data_nascimento"
-                                   value="{{ user|getDataNascimento }}">
+                                   value="{{ user|getDataNascimentoFormatted }}">
                         </div>
 
                         <div class="mb-3">
@@ -241,6 +241,9 @@
                             <button type="button" class="closeBtn" data-bs-dismiss="modal">Fechar</button>
                             <button type="submit" class="saveBtn">Salvar alterações</button>
                         </div>
+                        {% if error_message %}
+                            <div class="alert alert-danger">{{ error_message }}</div>
+                        {% endif %}
                     </form>
                 </div>
 
