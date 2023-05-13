@@ -65,7 +65,7 @@
             <ul>
                 <li><a class="nav-link scrollto" href="{% url 'webdanceteria:home' %}">Home</a></li>
                 {% block active %}
-                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Aulas e Eventos</a>
+                    <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos e Aulas</a>
                     </li>
                     {% if request.user.is_authenticated %}
                         <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>

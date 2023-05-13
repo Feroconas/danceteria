@@ -106,10 +106,11 @@ def logout_view(request):
 
 
 def profile_view(request):
-    bilhetesEvento = BilheteEvento.objects.order_by(F('data_validade'))
-    bilhetesAula = BilheteAula.objects.order_by(F('data_validade'))
+    bilhetesEvento = BilheteEvento.objects.filter(comprador=request.user).order_by(F('data_validade'))
+    bilhetesAula = BilheteAula.objects.filter(comprador=request.user).order_by(F('data_validade'))
+    nivel_nome = NIVEL_CHOICES[request.user.membro.nivel_membro.id_nivel - 1][1] if isMembro(request.user) else None
     return render(request, 'webdanceteria/profile.html',
-                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula, 'genero_choices': genero_choices})
+                  {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula, 'genero_choices': genero_choices, 'nivel_nome': nivel_nome})
 
 
 @csrf_exempt
@@ -153,10 +154,10 @@ def events_view(request):
 
 
 def atualizarNivelMembro(user):
-    niveis_membro = NivelMembro.objects.all().order_by('-id')
-    for nivel_membro in niveis_membro:
-        if user.membro.pontos >= nivel_membro.pontos_necessarios and user.membro.nivel_membro < nivel_membro.id_nivel:
-            user.membro.nivel_membro += 1
+    niveis_membro = NivelMembro.objects.all().order_by('id_nivel')
+    for nivel_atual in niveis_membro:
+        if user.membro.pontos >= nivel_atual.pontos_necessarios and user.membro.nivel_membro.id_nivel < nivel_atual.id_nivel:
+            user.membro.nivel_membro = nivel_atual
             user.membro.save()
             if nivel_atual.id_nivel == NIVEL_INICIANTE:
                 BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
@@ -179,7 +180,6 @@ def atualizarNivelMembro(user):
     return None
 
 
-
 @login_required()
 def comprarBilheteEv_view(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
@@ -190,9 +190,10 @@ def comprarBilheteEv_view(request, evento_id):
 
     if evento.bilhetes_disponiveis > 0:
 
-        if BilheteEvento.objects.filter(comprador=request.user, evento_id=evento).exists():  # Ver se já comprou o bilhete
+        if BilheteEvento.objects.filter(comprador=request.user,
+                                        evento_id=evento).exists():  # Ver se já comprou o bilhete
             return JsonResponse({
-                "mensagem": "Já compraste este bilhete...",
+                "mensagem": "Já tens este bilhete, verifica no teu perfil...",
             })
 
         evento.bilhetes_disponiveis -= 1
@@ -203,15 +204,23 @@ def comprarBilheteEv_view(request, evento_id):
                                      preco=preco)
         if isMembro(request.user):
             pontos_adicionados = int(preco)
-            comprador.membro.pontos += pontos_adicionados  # TODO ver depois
-            recompensa = atualizarNivelMembro(request.user)
-
+            comprador.membro.pontos += pontos_adicionados
             comprador.membro.save()
-            return JsonResponse({
-                "mensagem": "Bilhete comprado com sucesso!",
-                "bilhetes_disponiveis": evento.bilhetes_disponiveis,
-                "pontos": pontos_adicionados,  # TODO Ver se ganhou recompensa, se sim, informar
-            })
+            recompensa_obtida = atualizarNivelMembro(request.user)
+            if recompensa_obtida is None:
+                return JsonResponse({
+                    "mensagem": "Bilhete comprado com sucesso!",
+                    "bilhetes_disponiveis": evento.bilhetes_disponiveis,
+                    "pontos": pontos_adicionados,
+                })
+            else:
+                return JsonResponse({
+                    "mensagem": "Bilhete comprado com sucesso!",
+                    "bilhetes_disponiveis": evento.bilhetes_disponiveis,
+                    "pontos": pontos_adicionados,
+                    "recompensa": recompensa_obtida,
+                    "nivel_membro": NIVEL_CHOICES[comprador.membro.nivel_membro.id_nivel - 1][1],
+                })
         else:
             return JsonResponse({
                 "mensagem": "Bilhete comprado com sucesso!",
@@ -223,71 +232,93 @@ def comprarBilheteEv_view(request, evento_id):
 
 
 @login_required()
-def apagarBilheteEv_view(request, bilhete_id):
-    bilhete = get_object_or_404(BilheteEvento, id=bilhete_id)
-    evento = bilhete.evento
-    if request.user.membro == bilhete.comprador:
-        bilhete.comprador.pontos -= 7
-        bilhete.comprador.save()
-        bilhete.delete()
-        evento.bilhetes_disponiveis += 1
-        evento.save()
-        return JsonResponse({
-            "mensagem": "Bilhete apagado com sucesso!",
-            "bilhetes_disponiveis": evento.bilhetes_disponiveis,
-            "pontos": bilhete.comprador.pontos
-        })
-    else:
-        return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
-
-
-@login_required()
 def comprarBilheteAula_view(request, aula_id):
     aulaDanca = get_object_or_404(AulaDanca, id=aula_id)
     preco = aulaDanca.preco_bilhete
-    comprador = request.user.membro
+    comprador = request.user
     data_compra = timezone.now()
     data_validade = aulaDanca.data_hora
 
     if aulaDanca.bilhetes_disponiveis > 0:
+
+        if BilheteAula.objects.filter(comprador=request.user,
+                                      aula_id=aulaDanca).exists():  # Ver se já comprou o bilhete
+            return JsonResponse({
+                "mensagem": "Já tens este bilhete, verifica no teu perfil...",
+            })
+
         aulaDanca.bilhetes_disponiveis -= 1
-        aulaDanca.participantes += 1
         aulaDanca.save()
         BilheteAula.objects.create(comprador=comprador, aula=aulaDanca, data_compra=data_compra,
                                    data_validade=data_validade,
                                    preco=preco)
-        comprador.pontos += 5
-        comprador.save()
-        return JsonResponse({
-            "mensagem": "Bilhete comprado com sucesso!",
-            "bilhetes_disponiveis": aulaDanca.bilhetes_disponiveis,
-            "pontos": comprador.pontos
-        })
+        if isMembro(request.user):
+            pontos_adicionados = int(preco)
+            comprador.membro.pontos += pontos_adicionados
+            comprador.membro.save()
+            recompensa_obtida = atualizarNivelMembro(request.user)
+            if recompensa_obtida is None:
+                return JsonResponse({
+                    "mensagem": "Bilhete comprado com sucesso!",
+                    "bilhetes_disponiveis": aulaDanca.bilhetes_disponiveis,
+                    "pontos": pontos_adicionados,
+                })
+            else:
+                return JsonResponse({
+                    "mensagem": "Bilhete comprado com sucesso!",
+                    "bilhetes_disponiveis": aulaDanca.bilhetes_disponiveis,
+                    "pontos": pontos_adicionados,
+                    "recompensa": recompensa_obtida,
+                    "nivel_membro": NIVEL_CHOICES[comprador.membro.nivel_membro.id_nivel - 1][1],
+                })
+        else:
+            return JsonResponse({
+                "mensagem": "Bilhete comprado com sucesso!",
+                "bilhetes_disponiveis": aulaDanca.bilhetes_disponiveis,
+            })
     else:
-        return JsonResponse({"mensagem": "Não há mais bilhetes disponíveis para este evento."})
+        return JsonResponse({
+            "mensagem": "Não há mais bilhetes disponíveis para esta aula."})
 
 
 @login_required()
-def apagarBilheteAula_view(request, bilheteAula_id):
-    bilhete = get_object_or_404(BilheteAula, id=bilheteAula_id)
-    aula = bilhete.aula
-    if request.user.membro == bilhete.comprador:
-        bilhete.comprador.pontos -= 5
-        bilhete.comprador.save()
+def apagarBilheteEv_view(request, bilhete_id):
+    print("apagar bileTE EVENMTO")
+    bilhete = get_object_or_404(BilheteEvento, id=bilhete_id)
+    evento = bilhete.evento
+    if request.user == bilhete.comprador:
+        if isMembro(request.user):
+            bilhete.comprador.membro.pontos -= int(bilhete.preco)
+            bilhete.comprador.membro.save()
         bilhete.delete()
-        aula.bilhetes_disponiveis += 1
-        aula.participantes -= 1
-        aula.save()
+        evento.bilhetes_disponiveis += 1
+        evento.save()
 
         return JsonResponse({
             "mensagem": "Bilhete apagado com sucesso!",
-            "bilhetes_disponiveis": aula.bilhetes_disponiveis,
-            "pontos": bilhete.comprador.pontos
         })
     else:
         return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
 
-    # @user_passes_test(isInstrutor)
+
+@login_required()
+def apagarBilheteAula_view(request, bilhete_id):
+    print("APAGAR BILHETE AULA")
+    bilhete = get_object_or_404(BilheteAula, id=bilhete_id)
+    aulaDanca = bilhete.aula
+    if request.user == bilhete.comprador:
+        if isMembro(request.user):
+            bilhete.comprador.membro.pontos -= int(bilhete.preco)
+            bilhete.comprador.membro.save()
+        bilhete.delete()
+        aulaDanca.bilhetes_disponiveis += 1
+        aulaDanca.save()
+        print("APAGEI BI")
+        return JsonResponse({
+            "mensagem": "Bilhete apagado com sucesso!",
+        })
+    else:
+        return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
 
 
 def criar_aula_view(request):

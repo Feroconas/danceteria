@@ -19,6 +19,6 @@ urlpatterns = [
     path('bilheteEvento/<int:evento_id>/', views.comprarBilheteEv_view, name='comprarBilheteEv_view'),
     path('bilheteEvento/eliminar/<int:bilhete_id>/', views.apagarBilheteEv_view, name='apagarBilheteEv_view'),
     path('bilheteAula/<int:aula_id>/', views.comprarBilheteAula_view, name='comprarBilheteAula_view'),
-    path('bilheteAula/eliminar/<int:bilheteAula_id>/', views.apagarBilheteAula_view, name='apagarBilheteAula_view'),
+    path('bilheteAula/eliminar/<int:bilhete_id>/', views.apagarBilheteAula_view, name='apagarBilheteAula_view'),
     path('criar-aula/', views.criar_aula_view, name='criar_aula_view')
     ]

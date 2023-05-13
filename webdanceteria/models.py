@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-NIVEL_INICIANTE = 1
-NIVEL_INTERMEDIO = 2
-NIVEL_AVANCADO = 3
-NIVEL_PROFISSIONAL = 4
+NIVEL_NOVATO = 1
+NIVEL_INICIANTE = 2
+NIVEL_INTERMEDIO = 3
+NIVEL_AVANCADO = 4
+NIVEL_PROFISSIONAL = 5
 
 NIVEL_CHOICES = (
+    (NIVEL_NOVATO, 'Novato'),
     (NIVEL_INICIANTE, 'Iniciante'),
     (NIVEL_INTERMEDIO, 'Intermédio'),
     (NIVEL_AVANCADO, 'Avançado'),

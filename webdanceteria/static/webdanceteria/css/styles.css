@@ -953,13 +953,13 @@ section {
     margin-bottom: -10px;
 }
 
-.removeBtn-container .removeBtn {
-    background: #b2b2b6;
+button.btn-remove-ticket, button.btn-remove-ticketAula {
+    background: #ff7777;
     border: 0;
-    padding: 10px 24px;
+    padding: 8px 15px;
     color: #151515;
     border-radius: 5px;
-    font-size: 10pt;
+    font-size: 12pt;
     width: auto;
     float: right;
     text-align: center;
@@ -967,8 +967,8 @@ section {
 
 }
 
-.removeBtn:hover {
-    background: #757577;
+button.btn-remove-ticket:hover, button.btn-remove-ticketAula:hover {
+    background: #ff4444;
 }
 
 

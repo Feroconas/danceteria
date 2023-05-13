@@ -88,7 +88,7 @@
                     <div class="col-lg-3">
                         <div class="bar-data text-center">
                             <h6 class="number h2" data-to="500" data-speed="500">
-                                {{ request.user.membro.nivel_membro.id_nivel }} </h6>
+                                {{ nivel_nome }} </h6>
                             <p>Nível</p>
                         </div>
                     </div>
@@ -132,11 +132,17 @@
         </div>
         <div class="row d-none" id="tickets">
             {% for bilheteEvento in bilhetesEvento %}
-                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                <div id="bilheteEventoDiv-{{ bilheteEvento.id }}"
+                     class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
                      data-aos="zoom-in" data-aos-delay="100">
                     <div class="event-box tickets-box" style="width: 400px;">
-                        <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="ticket">
-                        </div>
+                        {% if bilheteEvento.especial %}
+                            <div class="icon" style="background:black"><img
+                                    src="{% static 'webdanceteria/img/ticketspecial.png' %}"
+                                    alt="ticketspecial"></div>
+                        {% else %}
+                            <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="ticket"></div>
+                        {% endif %}
                         <h4>{{ bilheteEvento.evento.nome }}</h4>
                         <p>{{ bilheteEvento.evento.data_hora }}</p>
                         <p>{{ bilheteEvento.evento.descricao|truncatechars:70 }}
@@ -144,7 +150,7 @@
                                 ...{% endif %}</p>
 
                         <div class="removeBtn-container">
-                            <button class="removeBtn" id="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
+                            <button class="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
                                 Eliminar
                             </button>
                         </div>
@@ -157,17 +163,23 @@
         </div>
         <div class="row d-none" id="ticketsAulas">
             {% for bilheteAula in bilhetesAula %}
-                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
+                <div id="bilheteAulaDiv-{{ bilheteAula.id }}"
+                     class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mt-4"
                      data-aos="zoom-in" data-aos-delay="100">
                     <div class="event-box tickets-box" style="width: 400px;">
-                        <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="Bilhete">
-                        </div>
+                        {% if bilheteAula.especial %}
+                            <div class="icon" style="background:black"><img
+                                    src="{% static 'webdanceteria/img/ticketspecial.png' %}"
+                                    alt="ticketspecial"></div>
+                        {% else %}
+                            <div class="icon"><img src="{% static 'webdanceteria/img/ticket.png' %}" alt="ticket"></div>
+                        {% endif %}
                         <h4>{{ bilheteAula.aula.nome }}</h4>
                         <p>{{ bilheteAula.aula.data_hora }}</p>
                         <p> Instrutor(a): {{ bilheteAula.aula.instrutor_id.nome }}</p>
 
                         <div class="removeBtn-container">
-                            <button class="removeBtn" id="btn-remove-ticketAula" data-id="{{ bilheteAula.id }}">
+                            <button class="btn-remove-ticketAula" data-id="{{ bilheteAula.id }}">
                                 Eliminar
                             </button>
                         </div>
@@ -189,7 +201,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post"  enctype="multipart/form-data" action="{% url 'webdanceteria:editUser_view' %}">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'webdanceteria:editUser_view' %}">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="nameInput" class="form-label" style="width: auto;">Nome</label>
@@ -257,6 +269,10 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css"
+          integrity="sha512-f6gjdlrW/HdqZ5hx8Mq5RKM5h8UBHl6bDTh2Vr9guU/XFR+SuydZJY3VT8vyqXksF+Nc6WJ4sZT9C9JpYXMr+A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -272,17 +288,23 @@
         });
         <!-- botão Eliminar bilhete evento -->
         $(document).ready(function () {
-            $("#btn-remove-ticket").click(function () {
+            $(".btn-remove-ticket").click(function () {
                 const bilheteId = $(this).attr('data-id');
+                const ticketElement = "#bilheteEventoDiv-" + bilheteId
                 $.ajax({
                     url: "{% url 'webdanceteria:apagarBilheteEv_view' bilhete_id=0 %}".replace('0', bilheteId),
                     type: "POST",
                     data: {
                         csrfmiddlewaretoken: "{{ csrf_token }}",
                     },
+                    dataType: "json",
                     success: function (data) {
-                        $("#tickets").toggleClass("d-none");
-                        $("#tickets").load("{% url 'webdanceteria:profile_view' %}");
+                        swal.fire({
+                            title: "sssssssssssss",
+                            icon: "error",
+                            confirmButtonText: "OK",
+                        })
+                        $(ticketElement).remove();
                     },
                     error: function (xhr, errmsg, err) {
                         console.log(xhr.status + ": " + xhr.responseText);
@@ -292,17 +314,23 @@
         });
         <!-- botão Eliminar bilhete aula -->
         $(document).ready(function () {
-            $("#btn-remove-ticketAula").click(function () {
+            $(".btn-remove-ticketAula").click(function () {
                 const bilheteId = $(this).attr('data-id');
+                const ticketElement = "#bilheteAulaDiv-" + bilheteId
                 $.ajax({
-                    url: "{% url 'webdanceteria:apagarBilheteAula_view' bilheteAula_id=0 %}".replace('0', bilheteId),
+                    url: "{% url 'webdanceteria:apagarBilheteAula_view' bilhete_id=0 %}".replace('0', bilheteId),
                     type: "POST",
                     data: {
                         csrfmiddlewaretoken: "{{ csrf_token }}",
                     },
+                    dataType: "json",
                     success: function (data) {
-                        $("#ticketsAulas").toggleClass("d-none");
-                        $("#ticketsAulas").load("{% url 'webdanceteria:profile_view' %}");
+                        swal.fire({
+                            title: "sssssssssssss",
+                            icon: "error",
+                            confirmButtonText: "OK",
+                        })
+                        $(ticketElement).remove();
                     },
                     error: function (xhr, errmsg, err) {
                         console.log(xhr.status + ": " + xhr.responseText);
