@@ -87,7 +87,7 @@
             <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
         {% else %}
             <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto"
-               style="margin-right: -40px">Registar</a>
+               style="margin-right: -250px">Registar</a>
             <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
         {% endif %}
 
@@ -138,19 +138,23 @@
                          data-aos-delay="100">
                         <h3> Sobre nós </h3>
                         <p class="fst-italic">
-                            <strong>DANÇ'ARTE </strong> é a danceteria mais popular de Portugal desde 2005 e atrai cada vez
+                            <strong>DANÇ'ARTE </strong> é a danceteria mais popular de Portugal desde 2005 e atrai cada
+                            vez
                             mais partipantes, tanto clientes como artistas. Inscreve-te numa das muitas atividades
                             que temos a oferecer e terás acesso a:
                         </p>
                         <ul>
-                            <li><i class="ri-check-double-line"></i> <strong>Géneros musicais diferenciados:</strong> Pop, Raggaeton,
+                            <li><i class="ri-check-double-line"></i> <strong>Géneros musicais diferenciados:</strong>
+                                Pop, Raggaeton,
                                 House, Hip-hop,
                                 Música popular brasileira, e outros;
                             </li>
-                            <li><i class="ri-check-double-line"></i> <strong>Vários estilos de dança:</strong> Tango, Samba, Breakdance,
+                            <li><i class="ri-check-double-line"></i> <strong>Vários estilos de dança:</strong> Tango,
+                                Samba, Breakdance,
                                 Salsa, e mais;
                             </li>
-                            <li><i class="ri-check-double-line"></i> <strong>Acesso a performances de artistas mundialmente
+                            <li><i class="ri-check-double-line"></i> <strong>Acesso a performances de artistas
+                                mundialmente
                                 conhecidos: </strong> Justin
                                 Timberlake, Chris Brown, Madonna e Chloe Arnold, e muitos mais!
                             </li>
@@ -176,34 +180,52 @@
 <footer id="footer">
     <div class="footer-top">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-between">
 
+                <!-- Coluna do Nome da Empresa -->
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-info">
-                        <h3> Danç'Arte<span>.</span></h3>
-                        <p>
-                            Rua Novos Descobrimentos <br>
-                            Lisboa, Portugal<br><br>
-                            <strong>Phone:</strong> +211 345 327<br>
-                            <strong>Email:</strong> dancarte@gmail.com<br>
-                        </p>
-                        <div class="social-links mt-3">
-                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                        <h3> Danç'Arte</h3>
+                    </div>
+                </div>
+
+                <!-- Coluna de Redes Sociais e Links -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 footer-links">
+                            <h4 class="footer-title">Redes Sociais</h4>
+                            <div class="social-links mt-3">
+                                <a href="https://twitter.com/Dance_Magazine" class="twitter" target="_blank"><img src="{% static 'webdanceteria/img/twitter.png' %}" alt="Twitter"></a>
+                                <a href="https://www.facebook.com/justdancegame" class="facebook" target="_blank"><img src="{% static 'webdanceteria/img/facebook.png' %}" alt="Facebook"></a>
+                                <a href="https://www.instagram.com/nextdanceschool/" class="instagram" target="_blank"><img src="{% static 'webdanceteria/img/instagram.png' %}" alt="Instagram"></a>
+                                <a href="https://www.youtube.com/@JazzyDanceStudiosChannel" class="youtube" target="_blank"><img src="{% static 'webdanceteria/img/youtube.png' %}" alt="Youtube"></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 footer-links">
+                            <h4 class="footer-title">Links</h4>
+                            <ul>
+                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:home' %}">Home</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="/danceteria/#about">Sobre nós</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos e Aulas</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-2 col-md-6 footer-links">
-                    <h4>Links</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:home' %}">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre nós</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a
-                                href="{% url 'webdanceteria:events_view' %}">Eventos</a></li>
-                        <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
-                    </ul>
+                <!-- Coluna dos Contactos -->
+                <div class="col-lg-3 col-md-6 text-right">
+                    <div class="footer-info">
+                        <h4 class="footer-title">Contactos</h4>
+                        <p>
+                            Rua Novos Descobrimentos <br>
+                            Lisboa, Portugal<br><br>
+                            <strong>Telefone:</strong> +351 123 456 789<br>
+                            <strong>Email:</strong> dancarte@gmail.com<br>
+                        </p>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

@@ -366,6 +366,14 @@ section {
     margin-bottom: 30px;
 }
 
+#footer .footer-links .footer-title {
+    font-size: 22px;
+}
+
+#footer .footer-info .footer-title {
+    font-size: 22px;
+}
+
 #footer .footer-top .footer-info h3 {
     font-size: 28px;
     margin: 0 0 20px 0;
@@ -387,25 +395,10 @@ section {
     color: #fff;
 }
 
-#footer .footer-top .social-links a {
-    font-size: 18px;
-    display: inline-block;
-    background: #292929;
-    color: #fff;
-    line-height: 1;
-    padding: 8px 0;
-    margin-right: 4px;
-    border-radius: 4px;
-    text-align: center;
-    width: 36px;
-    height: 36px;
-    transition: 0.3s;
-}
-
-#footer .footer-top .social-links a:hover {
-    background: #a996ff;
-    color: #151515;
-    text-decoration: none;
+#footer .footer-top .social-links a img {
+    width: 32px;
+    height: 32px;
+    margin-right: 7px;
 }
 
 #footer .footer-top h4 {
@@ -498,7 +491,6 @@ section {
     font-size: 13px;
     color: #fff;
 }
-
 
 /*--------------------------------------------------------------
 # About

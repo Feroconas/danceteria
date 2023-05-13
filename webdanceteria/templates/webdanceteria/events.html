@@ -169,7 +169,17 @@
                                     "<p> Ganhaste " + response.pontos + " pontos! </p>",
                                 icon: "success",
                                 confirmButtonText: "OK",
-                            })
+                            }).then(() => {
+                                if (response.recompensa) {
+                                    swal.fire({
+                                        title: "Agora o teu nível é: " + response.nivel_membro + "!",
+                                        text: "Ganhaste: " + response.recompensa,
+                                        icon: "info",
+                                        confirmButtonText: "Fantástico!",
+                                    })
+                                }
+                                // Aqui você pode adicionar código para redirecionar o usuário ou fechar a janela pop-up
+                            });
                         } else if (response.bilhetes_disponiveis) {
                             swal.fire({
                                 title: response.mensagem,

@@ -1,4 +1,6 @@
 import locale
+
+from django.contrib.admin import ModelAdmin
 from django.utils import timezone
 import datetime
 from django.contrib.auth.decorators import login_required
@@ -71,6 +73,7 @@ def register_member_view(request):
     return render(request, 'webdanceteria/registermember.html', {'form': form})
 
 
+@user_passes_test(isSuperUser)
 def register_instrutor_view(request):
     if request.method == 'POST':
         form = RegisterInstrutorForm(request.POST, request.FILES)
@@ -155,8 +158,25 @@ def atualizarNivelMembro(user):
         if user.membro.pontos >= nivel_membro.pontos_necessarios and user.membro.nivel_membro < nivel_membro.id_nivel:
             user.membro.nivel_membro += 1
             user.membro.save()
-            if nivel_membro.id_nivel== 1:
-                BilheteAula.objects.create(comprador=user, data_compra= timezone.now() )
+            if nivel_atual.id_nivel == NIVEL_INICIANTE:
+                BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
+                                           data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=0,
+                                           aula=AulaDanca.objects.latest('id'))
+            if nivel_atual.id_nivel == NIVEL_INTERMEDIO:
+                BilheteEvento.objects.create(comprador=user, data_compra=timezone.now(),
+                                             data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=0,
+                                             evento=Evento.objects.latest('id'))
+            if nivel_atual.id_nivel == NIVEL_AVANCADO:
+                BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
+                                           data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=1,
+                                           aula=AulaDanca.objects.order_by('-preco_bilhete').first())
+            if nivel_atual.id_nivel == NIVEL_PROFISSIONAL:
+                BilheteEvento.objects.create(comprador=user, data_compra=timezone.now(),
+                                             data_validade=(timezone.now() + timedelta(weeks=10)), preco=0,
+                                             especial=1,
+                                             evento=Evento.objects.order_by('-preco_bilhete').first())
+            return nivel_atual.recompensa
+    return None
 
 
 
