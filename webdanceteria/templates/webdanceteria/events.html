@@ -1,4 +1,4 @@
-{% extends "./home.html" %}
+{% extends "./profile.html" %}
 <html lang="en">
 
 <head>
@@ -17,10 +17,13 @@
 <body class="modal-open" dada-bs-padding-right="0px" style="padding-right: 0">
 <!-- =====
 
-
-
+ <!- ======= Breadcumbs ======= -->
+{% block pageName %}
+   <li>Eventos</li>
+{% endblock %}
 
 {% block content %}
+
     <!- ======= Events Section ======= -->
     <main>
         <section class="events">
@@ -28,7 +31,8 @@
                 <div class="section-title" style="margin-bottom: 40px">
                     <h3 style="margin-bottom: -40px">Eventos e Aulas</h3>
                     {% if perms.webdanceteria.add_auladanca %}
-                        <a class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0"  href="{% url 'webdanceteria:criar_aula_view' %}">Criar Aula </a>
+                        <a class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0"
+                           href="{% url 'webdanceteria:criar_aula_view' %}">Criar Aula </a>
                     {% endif %}
                 </div>
 
