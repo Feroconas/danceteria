@@ -16,9 +16,6 @@ def isMembro(user):
 def isInstrutor(user):
     return user.groups.filter(name='Instrutores').exists()
 
-@register.filter
-def isSuperUser(user):
-    return user.is_superuser
 
 @register.filter
 def getUtilizador(user):
