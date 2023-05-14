@@ -1,5 +1,4 @@
 import locale
-
 from django.contrib.admin import ModelAdmin
 from django.utils import timezone
 import datetime
