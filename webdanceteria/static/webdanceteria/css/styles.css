@@ -206,12 +206,15 @@ h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
+
+
 #hero {
     width: 100%;
     height: 100vh;
     background: url("../img/club.jpg") top center;
     background-size: cover;
     position: relative;
+
 }
 
 
@@ -751,12 +754,13 @@ section {
 }
 
 .about-avatar {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .about-avatar img {
     margin-top: 30px;
-    width: 200px;
+    height: 100px;
+
     shadow: 0 0 30px rgba(31, 45, 61, 0.125);
     /* para arredondar imagens quadradas */
     border-radius: 50%;
@@ -786,10 +790,12 @@ section {
     font-weight: 700;
     color: #322791;
     margin: 0 0 5px;
+    font-size: 22px;
 }
 
 .bar p {
     font-weight: 600;
+
     margin-top: 5px;
 
 }

@@ -25,7 +25,6 @@ def home(request):
     eventos = Evento.objects.order_by('-id')[:5]
     return render(request, 'webdanceteria/home.html', {'eventos': eventos})
 
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -113,7 +112,7 @@ def criar_aula_view(request):
         form = CriarAulaForm()
         if not request.user.is_superuser:
             form.hide_instrutor_id_field()
-    return render(request, 'webdanceteria/criarAula.html', {'form': form})
+    return render(request, 'webdanceteria/createAula.html', {'form': form})
 
 
 # @user_passes_test(lambda u: u.is_authenticated)

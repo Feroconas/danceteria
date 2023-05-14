@@ -14,18 +14,19 @@
 
 
 </head>
-<body class="modal-open" dada-bs-padding-right="0px" style="padding-right: 0">
-<!-- =====
+<body>
 
  <!- ======= Breadcumbs ======= -->
-{% block pageName %}
-   <li>Eventos</li>
-{% endblock %}
+
+    {% block pageName %}
+        <li>Eventos</li>
+    {% endblock %}
+
 
 {% block content %}
 
     <!- ======= Events Section ======= -->
-    <main>
+    <main >
         <section class="events">
             <div class="container" data-aos="fade-up">
                 <div class="section-title" style="margin-bottom: 40px">
@@ -140,7 +141,6 @@
     </main>
     <!-- ======= End Events Section ======= -->
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css"
           integrity="sha512-f6gjdlrW/HdqZ5hx8Mq5RKM5h8UBHl6bDTh2Vr9guU/XFR+SuydZJY3VT8vyqXksF+Nc6WJ4sZT9C9JpYXMr+A=="
@@ -153,7 +153,6 @@
                 $("#eventos").toggleClass("d-none");
             });
         });
-
 
         $(document).ready(function () {
             $("#btn-hide-aulas").click(function () {
@@ -191,7 +190,6 @@
                                         confirmButtonText: "Fantástico!",
                                     })
                                 }
-                                // Aqui você pode adicionar código para redirecionar o usuário ou fechar a janela pop-up
                             });
                         } else if (response.bilhetes_disponiveis) {
                             swal.fire({
@@ -223,7 +221,6 @@
                         $('body').css('padding-right', '0');
                         console.log(xhr.status + ": " + xhr.responseText);
                     }
-
                 });
             });
         });
@@ -258,7 +255,6 @@
                                         confirmButtonText: "Fantástico!",
                                     })
                                 }
-                                // Aqui você pode adicionar código para redirecionar o usuário ou fechar a janela pop-up
                             });
                         } else if (response.bilhetes_disponiveis) {
                             swal.fire({
@@ -296,9 +292,7 @@
             });
         });
 
-
     </script>
-
 
 {% endblock %}
 
