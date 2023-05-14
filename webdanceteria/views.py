@@ -73,7 +73,8 @@ def register_member_view(request):
     return render(request, 'webdanceteria/registermember.html', {'form': form})
 
 
-@user_passes_test(isSuperUser)
+@user_passes_test(lambda u: u.is_superuser)
+@login_required()
 def register_instrutor_view(request):
     if request.method == 'POST':
         form = RegisterInstrutorForm(request.POST, request.FILES)
@@ -100,11 +101,30 @@ def register_instrutor_view(request):
     return render(request, 'webdanceteria/registerinstrutor.html', {'form': form})
 
 
+@login_required()
+# @user_passes_test()
+def criar_aula_view(request):
+    if request.method == 'POST':
+        form = CriarAulaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('webdanceteria/events.html')
+    else:
+        form = CriarAulaForm()
+        if not request.user.is_superuser:
+            form.hide_instrutor_id_field()
+    return render(request, 'webdanceteria/criarAula.html', {'form': form})
+
+
+# @user_passes_test(lambda u: u.is_authenticated)
+@login_required()
 def logout_view(request):
     logout(request)
     return redirect('webdanceteria:home')
 
 
+# @user_passes_test(lambda u: u.is_authenticated)
+@login_required()
 def profile_view(request):
     bilhetesEvento = BilheteEvento.objects.filter(comprador=request.user).order_by(F('data_validade'))
     bilhetesAula = BilheteAula.objects.filter(comprador=request.user).order_by(F('data_validade'))
@@ -114,6 +134,8 @@ def profile_view(request):
 
 
 @csrf_exempt
+# @user_passes_test(lambda u: u.is_authenticated)
+@login_required()
 def editUser_view(request):
     if request.method == 'POST':
         datanascimento = datetime.strptime(request.POST.get('data_nascimento'), '%Y-%m-%d').date()
