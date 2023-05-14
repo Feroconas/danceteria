@@ -45,7 +45,7 @@ class Utilizador(models.Model):
     email = models.EmailField()
     genero = models.CharField(max_length=1, choices=genero_choices)
     imagem_perfil = models.FileField(upload_to='utilizadorImg', null=True)
-    descricao = models.CharField(max_length=500, null=True, blank=True)
+    descricao = models.CharField(max_length=500, null=True, blank=True, default="")
     data_nascimento = models.DateField()
     n_aulas = models.IntegerField(default=0)
     n_eventos = models.IntegerField(default=0)
@@ -87,13 +87,13 @@ class Evento(models.Model):
 
 
 class AulaDanca(models.Model):
-    nome = models.CharField(max_length=100, default=None)
+    nome = models.CharField(max_length=100, default="")
     data_hora = models.DateTimeField(null=True)
     preco_bilhete = models.DecimalField(max_digits=6, decimal_places=2, default=None)
     bilhetes_disponiveis = models.IntegerField(default=10)
     participantes = models.IntegerField(default=0)
     instrutor_id = models.ForeignKey(Instrutor, on_delete=models.PROTECT)
-    nivel_aconselhado = models.IntegerField(choices=NIVEL_CHOICES)
+    nivel_aconselhado = models.ForeignKey(NivelMembro, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.nome
@@ -123,12 +123,11 @@ class BilheteAula(Bilhete):
     def __str__(self):
         return f'Bilhete {self.id} para {self.aula.nome}'
 
-# class HistoricoUtilizador(models.Model):
-# utilizador = models.ForeignKey(Utilizador, on_delete=models.PROTECT)
-# aula_evento = models.ForeignKey(Evento, on_delete=models.PROTECT)
-# data = models.DateTimeField()
 
-
-# class Avaliacao(models.Model):
-#   utilizador = models.ForeignKey(Utilizador, on_delete=models.PROTECT)
-#  aula_evento = models.ForeignKey(Evento, on_delete=models.PROTECT)
+class Avaliacao(models.Model):
+    avaliador = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=100, default="")
+    descricao = models.CharField(max_length=1000, null=True, blank=True, default="")
+    rating = models.IntegerField()  # 1 a 5 estrelas
+    data_avaliacao = models.DateTimeField()

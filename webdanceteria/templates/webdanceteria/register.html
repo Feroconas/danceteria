@@ -56,17 +56,17 @@
 <body>
 
 {% block content %}
-<header id="header"  class="fixed-top">  <!-- class="fixed-top" pus isto porque não estava a dar sem -->
-    <div class="container d-flex align-items-center justify-content-lg-between ">
-        <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
+    <header id="header" class="fixed-top">  <!-- class="fixed-top" pus isto porque não estava a dar sem -->
+        <div class="container d-flex align-items-center justify-content-lg-between ">
+            <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
 
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
-        {% else %}
-            <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
-        {% endif %}
-    </div>
-</header>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'webdanceteria:logout_view' %}" class="log-btn scrollto">Logout</a>
+            {% else %}
+                <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
+            {% endif %}
+        </div>
+    </header>
 
     <!-- ======= Hero Section -- Forms ======= -->
     <section id="hero" style="height: auto; padding-bottom: 50px" class="hero-register">
@@ -107,7 +107,8 @@
     </section><!-- End Hero -->
 
 
+    <!-- Initialize datetime picker -->
 
 
-</body>
+    </body>
 {% endblock %}

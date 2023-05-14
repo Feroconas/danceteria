@@ -10,14 +10,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.contrib.auth.models import User, Group
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from webdanceteria.models import *
 from webdanceteria.templatetags.registerfilters import *
 from datetime import date, timedelta, datetime
-from .forms import RegisterMemberForm, RegisterInstrutorForm, CriarAulaForm
+from .forms import *
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -110,8 +105,30 @@ def criar_aula_view(request):
         else:
             form = CriarAulaInstrutorForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('webdanceteria/events.html')
+            data_hora_str = form.cleaned_data['data_hora']
+            try:
+                data_hora_obj = datetime.strptime(data_hora_str, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                return HttpResponse("Data e hora com formato errado: " + data_hora_str)
+
+            if request.user.is_superuser:
+                instrutor = form.cleaned_data['instrutor_id']
+            else:
+                instrutor = getUtilizador(request.user)
+                instrutor.n_aulas += 1
+                instrutor.save()
+
+            aulaDanca = AulaDanca(
+                nome=form.cleaned_data['nome'],
+                data_hora=data_hora_obj,
+                preco_bilhete=form.cleaned_data['preco_bilhete'],
+                bilhetes_disponiveis=form.cleaned_data['bilhetes_disponiveis'],
+                instrutor_id=instrutor,
+                nivel_aconselhado=form.cleaned_data['nivel_aconselhado']
+            )
+            aulaDanca.save()
+
+            return redirect('webdanceteria:events_view')
     else:
         if request.user.is_superuser:
             form = CriarAulaAdminForm()
@@ -210,7 +227,8 @@ def editUser_view(request):
         user.data_nascimento = datanascimento
         if isMembro(request.user):
             user.preferencias_musicais = request.POST.get('preferencias_musicais')
-        user.imagem_perfil.save(request.FILES['imagem_perfil'].name, request.FILES['imagem_perfil'])
+        if 'imagem_perfil' in request.FILES:
+            user.imagem_perfil.save(request.FILES['imagem_perfil'].name, request.FILES['imagem_perfil'])
         user.save()
         userDjango.save()
         return render(request, 'webdanceteria/profile.html', {'genero_choices': genero_choices})
@@ -303,6 +321,7 @@ def comprarBilheteAula_view(request, aula_id):
             })
 
         aulaDanca.bilhetes_disponiveis -= 1
+        aulaDanca.participantes += 1
         aulaDanca.save()
         utilizador = getUtilizador(request.user)
         utilizador.n_aulas += 1
@@ -342,7 +361,6 @@ def comprarBilheteAula_view(request, aula_id):
 
 @login_required()
 def apagarBilheteEv_view(request, bilhete_id):
-    print("apagar bileTE EVENMTO")
     bilhete = get_object_or_404(BilheteEvento, id=bilhete_id)
     evento = bilhete.evento
     if request.user == bilhete.comprador:
@@ -365,7 +383,6 @@ def apagarBilheteEv_view(request, bilhete_id):
 
 @login_required()
 def apagarBilheteAula_view(request, bilhete_id):
-    print("APAGAR BILHETE AULA")
     bilhete = get_object_or_404(BilheteAula, id=bilhete_id)
     aulaDanca = bilhete.aula
     if request.user == bilhete.comprador:
@@ -374,14 +391,16 @@ def apagarBilheteAula_view(request, bilhete_id):
             bilhete.comprador.membro.save()
         bilhete.delete()
         aulaDanca.bilhetes_disponiveis += 1
+        aulaDanca.participantes -= 1
         aulaDanca.save()
-        print("APAGEI BI")
+        utilizador = getUtilizador(request.user)
+        utilizador.n_aulas -= 1
+        utilizador.save()
         return JsonResponse({
             "mensagem": "Bilhete apagado com sucesso!",
         })
     else:
         return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
-
 
 
 def atualizarNivelMembro(user):

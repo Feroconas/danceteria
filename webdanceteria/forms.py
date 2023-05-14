@@ -1,8 +1,7 @@
 from django import forms
-from .models import genero_choices, Membro, Instrutor, Categoria
-from django.forms import SplitDateTimeWidget
 
 from .models import *
+from webdanceteria.templatetags.registerfilters import getUtilizador
 from datetime import date, timedelta
 
 
@@ -48,8 +47,9 @@ class RegisterInstrutorForm(forms.ModelForm):
     password = forms.CharField(label='Password:',
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'}))
     genero = forms.ChoiceField(label='Género:', choices=genero_choices, widget=forms.RadioSelect)
-    data_nascimento = forms.DateField(label='Data de nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
-    especializacao = forms.ModelChoiceField(queryset=Categoria.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    data_nascimento = forms.DateField(label='Data de nascimento:', widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    especializacao = forms.ModelChoiceField(label='Especialização:', queryset=Categoria.objects.all(),
+                                            widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Instrutor
@@ -77,14 +77,16 @@ class RegisterInstrutorForm(forms.ModelForm):
         return data
 
 
-class CriarAulaForm(forms.ModelForm):
-    data_hora = forms.DateTimeField(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control'}))
+class CriarAulaAdminForm(forms.ModelForm):
+    data_hora = forms.CharField(label="Data e hora:", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'AAAA-MM-DD hh:mm:ss'}))
+
     preco_bilhete = forms.DecimalField(label='Preço do bilhete (€):', max_digits=6, decimal_places=2, widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'Preço do bilhete (€)'}))
+
     instrutor_id = forms.ModelChoiceField(label='Instrutor:', queryset=Instrutor.objects.all(),
                                           widget=forms.Select(attrs={'class': 'form-control'}))
 
-    nivel_aconselhado = forms.ModelChoiceField(label='Nível aconselhado:', queryset=NivelMembro.objects.all(),
+    nivel_aconselhado = forms.ModelChoiceField(label='Nível aconselhado:', queryset=NivelMembro.objects.all(), to_field_name='id_nivel',
                                                widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
@@ -101,8 +103,6 @@ class CriarAulaForm(forms.ModelForm):
         label_suffix = ':'
         attrs = {'class': 'login-form'}
 
-    def hide_instrutor_id_field(self):
-        del self.fields['instrutor_id']
 
 class CriarAulaInstrutorForm(forms.ModelForm):
     data_hora = forms.CharField(label="Data e hora:", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'AAAA-MM-DD hh:mm:ss'}))

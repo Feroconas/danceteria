@@ -58,10 +58,20 @@ def getDescricao(user):
 
 @register.filter
 def getDataNascimento(user):
-
     return getUtilizador(user).data_nascimento
+
 
 @register.filter
 def getDataNascimentoFormatted(user):
     date = getUtilizador(user).data_nascimento
     return date.strftime('%Y-%m-%d')
+
+
+@register.filter
+def getNAulas(user):
+    return getUtilizador(user).n_aulas
+
+
+@register.filter
+def getNEventos(user):
+    return getUtilizador(user).n_eventos

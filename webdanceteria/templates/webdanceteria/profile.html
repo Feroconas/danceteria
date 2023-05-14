@@ -69,7 +69,7 @@
                     <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos e Aulas</a>
                     </li>
                     {% if request.user.is_authenticated %}
-                        <li><a class="nav-link scrollto " href="#portfolio">Fórum</a></li>
+                        <li><a class="nav-link scrollto " href="{% url 'webdanceteria:avaliacoes_view' %}">Avaliações</a></li>
                     {% endif %}
                     {% if request.user.is_authenticated %}
                         {% if user.is_superuser %}
