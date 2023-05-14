@@ -208,13 +208,13 @@
                     {% endif %}
                     <div class="col-lg-3">
                         <div class="bar-data text-center">
-                            <h6 class="number h2" data-to="850" data-speed="850">853</h6>
+                            <h6 class="number h2" data-to="850" data-speed="850">{{ request.user|getNAulas }}</h6>
                             <p>Aulas</p>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="bar-data text-center">
-                            <h6 class="number h2" data-to="190" data-speed="190">170</h6>
+                            <h6 class="number h2" data-to="190" data-speed="190">{{ request.user|getNEventos }}</h6>
                             <p>Eventos</p>
                         </div>
                     </div>

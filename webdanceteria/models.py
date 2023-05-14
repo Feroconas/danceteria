@@ -47,6 +47,8 @@ class Utilizador(models.Model):
     imagem_perfil = models.FileField(upload_to='utilizadorImg', null=True)
     descricao = models.CharField(max_length=500, null=True, blank=True)
     data_nascimento = models.DateField()
+    n_aulas = models.IntegerField(default=0)
+    n_eventos = models.IntegerField(default=0)
 
     class Meta:
         abstract = True

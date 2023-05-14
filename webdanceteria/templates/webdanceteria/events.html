@@ -35,6 +35,10 @@
                         <a class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0"
                            href="{% url 'webdanceteria:criar_aula_view' %}">Criar Aula </a>
                     {% endif %}
+                    {% if perms.webdanceteria.add_evento %}
+                        <a class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0; margin-right: 20px"
+                           href="{% url 'webdanceteria:criar_evento_view' %}">Criar Evento </a>
+                    {% endif %}
                 </div>
 
                 <div class="button-container">
@@ -96,7 +100,9 @@
                              data-aos="zoom-in" data-aos-delay="100">
                             <div class="event-box" style="width: 400px;" data-bs-toggle="modal"
                                  data-bs-target="#aula-modal-{{ aula.id }}">
-                                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                                <div class="icon"><img style="width: 40px"
+                                                       src="{% static 'webdanceteria/img/lessonIcon.png' %}" alt="event">
+                                </div>
                                 <h4>{{ aula.nome }}</h4>
                                 <p>{{ aula.data_hora }}</p>
                                 <p> Instrutor(a) {{ aula.instrutor_id.nome }}</p>

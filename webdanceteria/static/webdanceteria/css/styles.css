@@ -805,7 +805,7 @@ section {
 }
 
 .editBtn {
-    background: #afcdff;
+    background: #adaffe;
     border: 0;
     padding: 10px 24px;
     color: #151515;
@@ -816,6 +816,7 @@ section {
 
 .editBtn:hover {
     background: #ac97ff;
+    color: #151515;
 }
 
 /* pop up profile */

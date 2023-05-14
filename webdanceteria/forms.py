@@ -104,4 +104,71 @@ class CriarAulaForm(forms.ModelForm):
     def hide_instrutor_id_field(self):
         del self.fields['instrutor_id']
 
+class CriarAulaInstrutorForm(forms.ModelForm):
+    data_hora = forms.CharField(label="Data e hora:", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'AAAA-MM-DD hh:mm:ss'}))
 
+    preco_bilhete = forms.DecimalField(label='Preço do bilhete (€):', max_digits=6, decimal_places=2, widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'placeholder': 'Preço do bilhete (€)'}))
+
+    nivel_aconselhado = forms.ModelChoiceField(label='Nível aconselhado:', queryset=NivelMembro.objects.all(), to_field_name='id_nivel',
+                                               widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = AulaDanca
+        fields = ['nome', 'data_hora', 'preco_bilhete', 'bilhetes_disponiveis', 'nivel_aconselhado']
+        labels = {
+            'nome': 'Nome da aula',
+            'bilhetes_disponiveis': 'Bilhetes disponíveis para venda',
+        }
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da aula'}),
+            'bilhetes_disponiveis': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Bilhetes disponíveis para venda'}),
+        }
+        label_suffix = ':'
+        attrs = {'class': 'login-form'}
+
+
+class CriarEventoForm(forms.ModelForm):
+    data_hora = forms.CharField(label="Data e hora:", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'AAAA-MM-DD hh:mm:ss'}))
+
+    preco_bilhete = forms.DecimalField(label='Preço do bilhete (€):', max_digits=6, decimal_places=2, widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'placeholder': 'Preço do bilhete (€)'}))
+
+    class Meta:
+        model = Evento
+        fields = ['nome', 'data_hora', 'preco_bilhete', 'bilhetes_disponiveis', 'descricao', 'artistas']
+        labels = {
+            'nome': 'Nome do Evento',
+            'bilhetes_disponiveis': 'Bilhetes disponíveis para venda',
+            'descricao': 'Descrição',
+            'artistas': 'Artistas'
+        }
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do evento'}),
+            'bilhetes_disponiveis': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Bilhetes disponíveis para venda'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Descrição'}),
+            'artistas': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Artistas'}),
+        }
+        label_suffix = ':'
+        attrs = {'class': 'login-form'}
+
+class CriarAvaliacaoForm(forms.ModelForm):
+
+    RATING_CHOICES = [(1, '1 estrela'), (2, '2 estrelas'), (3, '3 estrelas'), (4, '4 estrelas'), (5, '5 estrelas')]
+
+    rating = forms.IntegerField(widget=forms.Select(choices=RATING_CHOICES))
+
+    class Meta:
+        model = Avaliacao
+        fields = ['titulo','descricao', 'rating']
+        labels = {
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+            'rating': 'Avaliação (1 a 5 estrelas)'
+        }
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 10, 'placeholder': 'Descrição'}),
+        }
+        label_suffix = ':'
+        attrs = {'class': 'login-form'}

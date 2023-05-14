@@ -1,20 +1,20 @@
 {% extends "./profile.html" %}
 
 {% block title %}
-    <title>Criar Aula</title>
+    <title>Criar Evento</title>
 {% endblock %}
 
 {% block content %}
 
-        <section class="events">
+        <section class="events create">
             <!-- ======= Hero Section -- Forms ======= -->
             <div class="container" data-aos="fade-up">
-                <div class="row align-items-center flex-row-reverse" style="height: auto" data-aos="fade-up"
+                <div class="row align-items-center flex-row-reverse" style="height: auto;" data-aos="fade-up"
                      data-aos-delay="150">
                     <div class="section-title" style="margin-bottom: -20px">
                         {% block nameForm %}
                         <h3>
-                            Criar Aula
+                            Criar Evento
                         </h3>
                         {% endblock %}
                     </div>
@@ -30,7 +30,7 @@
                                 </div>
                             {% endif %}
                             <div class="text center">
-                                <button type="submit" class="btnlog">Criar Aula</button>
+                                <button type="submit" class="btnlog">Criar Evento</button>
                             </div>
                         </form>
                     </div>

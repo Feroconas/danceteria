@@ -3,7 +3,7 @@ import locale
 from django.contrib.admin import ModelAdmin
 from django.utils import timezone
 import datetime
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Permission
 from django.db.models import F
 from django.shortcuts import render, redirect, get_object_or_404
@@ -24,6 +24,7 @@ from django.contrib.auth.decorators import user_passes_test
 def home(request):
     eventos = Evento.objects.order_by('-id')[:5]
     return render(request, 'webdanceteria/home.html', {'eventos': eventos})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -72,7 +73,7 @@ def register_member_view(request):
     return render(request, 'webdanceteria/registermember.html', {'form': form})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@permission_required('webdanceteria.add_instrutor')
 @login_required()
 def register_instrutor_view(request):
     if request.method == 'POST':
@@ -101,39 +102,97 @@ def register_instrutor_view(request):
 
 
 @login_required()
-# @user_passes_test()
+@permission_required('webdanceteria.add_auladanca')
 def criar_aula_view(request):
     if request.method == 'POST':
-        form = CriarAulaForm(request.POST)
+        if request.user.is_superuser:
+            form = CriarAulaAdminForm(request.POST)
+        else:
+            form = CriarAulaInstrutorForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('webdanceteria/events.html')
     else:
-        form = CriarAulaForm()
-        if not request.user.is_superuser:
-            form.hide_instrutor_id_field()
+        if request.user.is_superuser:
+            form = CriarAulaAdminForm()
+        else:
+            form = CriarAulaInstrutorForm()
     return render(request, 'webdanceteria/createAula.html', {'form': form})
 
 
-# @user_passes_test(lambda u: u.is_authenticated)
+@login_required()
+@permission_required('webdanceteria.add_evento')
+def criar_evento_view(request):
+    if request.method == 'POST':
+        form = CriarEventoForm(request.POST)
+        if form.is_valid():
+            data_hora_str = form.cleaned_data['data_hora']
+            try:
+                data_hora_obj = datetime.strptime(data_hora_str, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                return HttpResponse("Data e hora com formato errado: " + data_hora_str)
+            evento = Evento(
+                nome=form.cleaned_data['nome'],
+                data_hora=data_hora_obj,
+                preco_bilhete=form.cleaned_data['preco_bilhete'],
+                bilhetes_disponiveis=form.cleaned_data['bilhetes_disponiveis'],
+                descricao=form.cleaned_data['descricao'],
+                artistas=form.cleaned_data['artistas']
+            )
+            evento.save()
+
+            return redirect('webdanceteria:events_view')
+    else:
+        form = CriarEventoForm()
+    return render(request, 'webdanceteria/createEvento.html', {'form': form})
+
+
+@login_required()
+def criar_avaliacao_view(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+    print("here:", evento.id)
+    if request.method == 'POST':
+        print("ENTREI NO IF")
+        form = CriarAvaliacaoForm(request.POST)
+        if form.is_valid():
+            avaliacao = Avaliacao(
+                avaliador=request.user,
+                evento=evento,
+                titulo=form.cleaned_data['titulo'],
+                descricao=form.cleaned_data['descricao'],
+                rating=form.cleaned_data['rating'],
+                data_avaliacao=timezone.now(),
+            )
+            avaliacao.save()
+            return redirect('webdanceteria:profile_view')
+    else:
+        form = CriarAvaliacaoForm()
+    return render(request, 'webdanceteria/createAvaliacao.html', {'form': form})
+
+
+@login_required()
+def avaliacoes_view(request):
+    avaliacoes = Avaliacao.objects.order_by('-data_avaliacao')
+    return render(request, 'webdanceteria/avaliacoes.html', {'avaliacoes': avaliacoes})
+
+
 @login_required()
 def logout_view(request):
     logout(request)
     return redirect('webdanceteria:home')
 
 
-# @user_passes_test(lambda u: u.is_authenticated)
 @login_required()
 def profile_view(request):
     bilhetesEvento = BilheteEvento.objects.filter(comprador=request.user).order_by(F('data_validade'))
     bilhetesAula = BilheteAula.objects.filter(comprador=request.user).order_by(F('data_validade'))
     nivel_nome = NIVEL_CHOICES[request.user.membro.nivel_membro.id_nivel - 1][1] if isMembro(request.user) else None
+
     return render(request, 'webdanceteria/profile.html',
                   {'bilhetesEvento': bilhetesEvento, 'bilhetesAula': bilhetesAula, 'genero_choices': genero_choices, 'nivel_nome': nivel_nome})
 
 
 @csrf_exempt
-# @user_passes_test(lambda u: u.is_authenticated)
 @login_required()
 def editUser_view(request):
     if request.method == 'POST':
@@ -189,7 +248,9 @@ def comprarBilheteEv_view(request, evento_id):
             return JsonResponse({
                 "mensagem": "Já tens este bilhete, verifica no teu perfil...",
             })
-
+        utilizador = getUtilizador(request.user)
+        utilizador.n_eventos += 1
+        utilizador.save()
         evento.bilhetes_disponiveis -= 1
         evento.save()
 
@@ -243,6 +304,10 @@ def comprarBilheteAula_view(request, aula_id):
 
         aulaDanca.bilhetes_disponiveis -= 1
         aulaDanca.save()
+        utilizador = getUtilizador(request.user)
+        utilizador.n_aulas += 1
+        utilizador.save()
+
         BilheteAula.objects.create(comprador=comprador, aula=aulaDanca, data_compra=data_compra,
                                    data_validade=data_validade,
                                    preco=preco)
@@ -287,6 +352,9 @@ def apagarBilheteEv_view(request, bilhete_id):
         bilhete.delete()
         evento.bilhetes_disponiveis += 1
         evento.save()
+        utilizador = getUtilizador(request.user)
+        utilizador.n_eventos -= 1
+        utilizador.save()
 
         return JsonResponse({
             "mensagem": "Bilhete apagado com sucesso!",

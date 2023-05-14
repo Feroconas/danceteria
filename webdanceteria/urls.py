@@ -20,5 +20,8 @@ urlpatterns = [
     path('bilheteEvento/eliminar/<int:bilhete_id>/', views.apagarBilheteEv_view, name='apagarBilheteEv_view'),
     path('bilheteAula/<int:aula_id>/', views.comprarBilheteAula_view, name='comprarBilheteAula_view'),
     path('bilheteAula/eliminar/<int:bilhete_id>/', views.apagarBilheteAula_view, name='apagarBilheteAula_view'),
-    path('criar-aula/', views.criar_aula_view, name='criar_aula_view')
+    path('criar-aula/', views.criar_aula_view, name='criar_aula_view'),
+    path('criar-evento/', views.criar_evento_view, name='criar_evento_view'),
+    path('criar-avaliacao/<int:evento_id>/', views.criar_avaliacao_view, name='criar_avaliacao_view'),
+    path('avaliacoes/', views.avaliacoes_view, name='avaliacoes_view')
     ]
