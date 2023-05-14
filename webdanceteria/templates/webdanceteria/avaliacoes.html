@@ -26,30 +26,42 @@
         <div class="container">
             <div class="section-title" style="margin-bottom: -20px">
                 {% block nameForm %}
-                <h3>
-                    Avaliações
-                </h3>
+                    <h3>
+                        Avaliações
+                    </h3>
                 {% endblock %}
+            </div>
+            {% for avaliacao in avaliacoes %}
+                <div id="divDivisao">
+
+                    {% if avaliacao.avaliador|getImagemPerfil %}
+                        <img src="{% static avaliacao.avaliador|getImagemPerfil %}"
+                             id=" img{{ avaliacao.avaliador.id }}"
+                             style="width: 100px; height: 100px" title="" alt="">
+                    {% else %}
+                        <img src="{% static 'webdanceteria/img/user.png' %}" id=" img{{ avaliacao.avaliador.id }}"
+                             style="width: 100px; height: 100px" title="" alt="">
+                    {% endif %}
+
+                    <h5 class="eventoNome"> Evento: {{ avaliacao.evento.nome }}</h5>
+                    <p class="p"><strong>{{ avaliacao.avaliador|getNome }}</strong></p>
+                    {% if avaliacao.rating == 1 %}
+                        <img src="{% static 'webdanceteria/img/rating_1.png' %}" style="width: 200px; height: 50px; border-radius: 0" alt="">
+                    {% elif avaliacao.rating == 2 %}
+                        <img src="{% static 'webdanceteria/img/rating_2.png' %}" style="width: 200px; height: 50px; border-radius: 0" alt="">
+                    {% elif avaliacao.rating == 3 %}
+                        <img src="{% static 'webdanceteria/img/rating_3.png' %}" style="width: 200px; height: 50px; border-radius: 0" alt="">
+                    {% elif avaliacao.rating == 4 %}
+                        <img src="{% static 'webdanceteria/img/rating_4.png' %}" style="width: 200px; height: 50px; border-radius: 0" alt="">
+                    {% elif avaliacao.rating == 5 %}
+                        <img src="{% static 'webdanceteria/img/rating_5.png' %}" style="width: 200px; height: 50px; border-radius: 0" alt="">
+                    {% endif %}
+
+                    <p class="p"> <u> {{ avaliacao.titulo }} </u> </p>
+                    <p class="p"> {{ avaliacao.descricao }} </p>
+
                 </div>
-                {% for avaliacao in avaliacoes %}
-                    <div id="divDivisao">
-
-                        {% if avaliacao.avaliador|getImagemPerfil %}
-                            <img src="{% static avaliacao.avaliador|getImagemPerfil %}" id=" img{{ avaliacao.avaliador.id }}"
-                             style="width: 100px; height: 100px" title="" alt="">
-                        {% else %}
-                            <img src="{% static 'webdanceteria/img/user.png' %}" id=" img{{ avaliacao.avaliador.id }}"
-                             style="width: 100px; height: 100px" title="" alt="">
-                        {% endif %}
-                        <h5 class="eventoNome"> Evento: {{ avaliacao.evento.nome }}</h5>
-                        <p class="p"> Avaliador: {{ avaliacao.avaliador|getNome }}</p>
-                        <p class="p"> Rating: {{ avaliacao.rating }}</p>
-
-                        <p class="p"> {{ avaliacao.titulo }}</p>
-                        <p class="p"> {{ avaliacao.descricao }} </p>
-
-                    </div>
-                {% endfor %}
+            {% endfor %}
         </div>
     </section>
 {% endblock %}
