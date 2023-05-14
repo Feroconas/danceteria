@@ -153,33 +153,6 @@ def events_view(request):
                   {'eventos': eventos, 'aulas': aulas})
 
 
-def atualizarNivelMembro(user):
-    niveis_membro = NivelMembro.objects.all().order_by('id_nivel')
-    for nivel_atual in niveis_membro:
-        if user.membro.pontos >= nivel_atual.pontos_necessarios and user.membro.nivel_membro.id_nivel < nivel_atual.id_nivel:
-            user.membro.nivel_membro = nivel_atual
-            user.membro.save()
-            if nivel_atual.id_nivel == NIVEL_INICIANTE:
-                BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
-                                           data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=0,
-                                           aula=AulaDanca.objects.latest('id'))
-            if nivel_atual.id_nivel == NIVEL_INTERMEDIO:
-                BilheteEvento.objects.create(comprador=user, data_compra=timezone.now(),
-                                             data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=0,
-                                             evento=Evento.objects.latest('id'))
-            if nivel_atual.id_nivel == NIVEL_AVANCADO:
-                BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
-                                           data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=1,
-                                           aula=AulaDanca.objects.order_by('-preco_bilhete').first())
-            if nivel_atual.id_nivel == NIVEL_PROFISSIONAL:
-                BilheteEvento.objects.create(comprador=user, data_compra=timezone.now(),
-                                             data_validade=(timezone.now() + timedelta(weeks=10)), preco=0,
-                                             especial=1,
-                                             evento=Evento.objects.order_by('-preco_bilhete').first())
-            return nivel_atual.recompensa
-    return None
-
-
 @login_required()
 def comprarBilheteEv_view(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
@@ -321,12 +294,29 @@ def apagarBilheteAula_view(request, bilhete_id):
         return JsonResponse({"mensagem": "Não tem permissão para apagar este bilhete."})
 
 
-def criar_aula_view(request):
-    if request.method == 'POST':
-        form = CriarAulaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('webdanceteria/events.html')
-    else:
-        form = CriarAulaForm()
-    return render(request, 'webdanceteria/criarAula.html', {'form': form})
+
+def atualizarNivelMembro(user):
+    niveis_membro = NivelMembro.objects.all().order_by('id_nivel')
+    for nivel_atual in niveis_membro:
+        if user.membro.pontos >= nivel_atual.pontos_necessarios and user.membro.nivel_membro.id_nivel < nivel_atual.id_nivel:
+            user.membro.nivel_membro = nivel_atual
+            user.membro.save()
+            if nivel_atual.id_nivel == NIVEL_INICIANTE:
+                BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
+                                           data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=0,
+                                           aula=AulaDanca.objects.latest('id'))
+            if nivel_atual.id_nivel == NIVEL_INTERMEDIO:
+                BilheteEvento.objects.create(comprador=user, data_compra=timezone.now(),
+                                             data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=0,
+                                             evento=Evento.objects.latest('id'))
+            if nivel_atual.id_nivel == NIVEL_AVANCADO:
+                BilheteAula.objects.create(comprador=user, data_compra=timezone.now(),
+                                           data_validade=(timezone.now() + timedelta(weeks=10)), preco=0, especial=1,
+                                           aula=AulaDanca.objects.order_by('-preco_bilhete').first())
+            if nivel_atual.id_nivel == NIVEL_PROFISSIONAL:
+                BilheteEvento.objects.create(comprador=user, data_compra=timezone.now(),
+                                             data_validade=(timezone.now() + timedelta(weeks=10)), preco=0,
+                                             especial=1,
+                                             evento=Evento.objects.order_by('-preco_bilhete').first())
+            return nivel_atual.recompensa
+    return None

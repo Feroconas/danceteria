@@ -27,9 +27,8 @@
             <div class="container" data-aos="fade-up">
                 <div class="section-title" style="margin-bottom: 40px">
                     <h3 style="margin-bottom: -40px">Eventos e Aulas</h3>
-                    {% if user|isInstrutor %}
-                        <button class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0">Criar Aula
-                        </button>
+                    {% if perms.webdanceteria.add_auladanca %}
+                        <a class="editBtn" style="float: right; font-weight: 500; margin-bottom: 0"  href="{% url 'webdanceteria:criar_aula_view' %}">Criar Aula </a>
                     {% endif %}
                 </div>
 
@@ -161,6 +160,7 @@
         $(document).ready(function () {
             $(".comprar-bilhete-btn").click(function () {
                 const eventoId = $(this).attr('data-evento-id');
+                $("#evento-modal-" + eventoId).show();
                 $.ajax({
                     url: "{% url 'webdanceteria:comprarBilheteEv_view' evento_id=0 %}".replace('0', eventoId),
                     type: "POST",
@@ -206,14 +206,17 @@
                         }
 
                         // Fechar a janela pop-up
-                        $('.modal-backdrop').remove();
-
-
+                        $('.modal-backdrop').hide();
+                        $("#evento-modal-" + eventoId).hide();
                         $('body').css('overflow-y', 'scroll');
                         $('body').css('padding-right', '0');
 
                     },
                     error: function (xhr, errmsg, err) {
+                        $('.modal-backdrop').hide();
+                        $("#aula-modal-" + aulaId).hide();
+                        $('body').css('overflow-y', 'scroll');
+                        $('body').css('padding-right', '0');
                         console.log(xhr.status + ": " + xhr.responseText);
                     }
 
@@ -224,6 +227,7 @@
         $(document).ready(function () {
             $(".comprar-bilhete-aula-btn").click(function () {
                 var aulaId = $(this).attr('data-evento-id');
+                $("#aula-modal-" + aulaId).show();
                 $.ajax({
                     url: "{% url 'webdanceteria:comprarBilheteAula_view' aula_id=0 %}".replace('0', aulaId),
                     type: "POST",
@@ -269,13 +273,18 @@
                         }
 
                         // Fechar a janela pop-up
-                        $('.modal-backdrop').remove();
+
+                        $('.modal-backdrop').hide();
                         $("#aula-modal-" + aulaId).hide();
                         $('body').css('overflow-y', 'scroll');
                         $('body').css('padding-right', '0');
 
                     },
                     error: function (xhr, errmsg, err) {
+                        $('.modal-backdrop').hide();
+                        $("#aula-modal-" + aulaId).hide();
+                        $('body').css('overflow-y', 'scroll');
+                        $('body').css('padding-right', '0');
                         console.log(xhr.status + ": " + xhr.responseText);
                     }
 

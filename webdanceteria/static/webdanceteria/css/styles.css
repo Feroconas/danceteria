@@ -586,6 +586,7 @@ section {
 
 .login-form input,
 .login-form textarea {
+    vertical-align: middle;
     border-radius: 0;
     box-shadow: none;
     font-size: 14px;

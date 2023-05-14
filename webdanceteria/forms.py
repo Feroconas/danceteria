@@ -2,13 +2,15 @@ from django import forms
 from .models import genero_choices, Membro, Instrutor, Categoria
 from django.forms import SplitDateTimeWidget
 
-from .models import genero_choices, Membro, Instrutor, Categoria, AulaDanca
+from .models import *
 from datetime import date, timedelta
 
 
 class RegisterMemberForm(forms.ModelForm):
-    username = forms.CharField(label='Nome de utilizador (único):', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-    password = forms.CharField(label='Password:', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'}))
+    username = forms.CharField(label='Nome de utilizador (único):',
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    password = forms.CharField(label='Password:',
+                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'}))
     genero = forms.ChoiceField(label='Género:', choices=genero_choices, widget=forms.RadioSelect)
     data_nascimento = forms.DateField(label='Data de nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
 
@@ -30,7 +32,7 @@ class RegisterMemberForm(forms.ModelForm):
             'imagem_perfil': forms.ClearableFileInput(attrs={'class': 'form-control', 'enctype': 'multipart/form-data'}),
         }
         label_suffix = ':'
-        attrs = {'class': 'register-form'}
+        attrs = {'class': 'login-form'}
 
     def clean_data_nascimento(self):
         data = self.cleaned_data['data_nascimento']
@@ -41,8 +43,10 @@ class RegisterMemberForm(forms.ModelForm):
 
 
 class RegisterInstrutorForm(forms.ModelForm):
-    username = forms.CharField(label='Nome de utilizador (único):', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-    password = forms.CharField(label='Password:', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'}))
+    username = forms.CharField(label='Nome de utilizador (único):',
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    password = forms.CharField(label='Password:',
+                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'}))
     genero = forms.ChoiceField(label='Género:', choices=genero_choices, widget=forms.RadioSelect)
     data_nascimento = forms.DateField(label='Data de nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     especializacao = forms.ModelChoiceField(queryset=Categoria.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
@@ -63,7 +67,7 @@ class RegisterInstrutorForm(forms.ModelForm):
             'imagem_perfil': forms.ClearableFileInput(attrs={'class': 'form-control', 'enctype': 'multipart/form-data'}),
         }
         label_suffix = ':'
-        attrs = {'class': 'register-form'}
+        attrs = {'class': 'login-form'}
 
     def clean_data_nascimento(self):
         data = self.cleaned_data['data_nascimento']
@@ -74,20 +78,30 @@ class RegisterInstrutorForm(forms.ModelForm):
 
 
 class CriarAulaForm(forms.ModelForm):
-    data_hora = forms.DateTimeField(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control', 'style': 'width: 250px'}))
+    data_hora = forms.DateTimeField(label='Data e Hora do evento', widget=SplitDateTimeWidget(attrs={'class': 'form-control'}))
+    preco_bilhete = forms.DecimalField(label='Preço do bilhete (€):', max_digits=6, decimal_places=2, widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'placeholder': 'Preço do bilhete (€)'}))
+    instrutor_id = forms.ModelChoiceField(label='Instrutor:', queryset=Instrutor.objects.all(),
+                                          widget=forms.Select(attrs={'class': 'form-control'}))
+
+    nivel_aconselhado = forms.ModelChoiceField(label='Nível aconselhado:', queryset=NivelMembro.objects.all(),
+                                               widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = AulaDanca
         fields = ['nome', 'data_hora', 'preco_bilhete', 'bilhetes_disponiveis', 'instrutor_id', 'nivel_aconselhado']
         labels = {
             'nome': 'Nome da aula',
-            'preco_bilhete': 'Preço do bilhete (€)',
             'bilhetes_disponiveis': 'Bilhetes disponíveis para venda',
-            'instrutor_id': 'Instrutor'
         }
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 200px', 'placeholder': 'Nome da aula'}),
-            #'preco_bilhete': forms.DecimalField(max_digits=6, decimal_places=2, default=None),
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da aula'}),
+            'bilhetes_disponiveis': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Bilhetes disponíveis para venda'}),
         }
         label_suffix = ':'
-        attrs = {'class': 'register-form'}
+        attrs = {'class': 'login-form'}
+
+    def hide_instrutor_id_field(self):
+        del self.fields['instrutor_id']
+
+
