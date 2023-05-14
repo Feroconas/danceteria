@@ -14,6 +14,7 @@
 
     <!-- CSS do Bootstrap v5.3 -->
     <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap.rtl.css' %}">
     <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.css' %}">
     <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-grid.rtl.css' %}">
     <link rel="stylesheet" href="{% static 'webdanceteria/bootstrap/css/bootstrap-reboot.css' %}">
@@ -51,12 +52,11 @@
     <!-- Template Main JS File -->
     <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
 
-
 </head>
 
 <body>
 
-<header id="header"  class="fixed-top">  <!-- class="fixed-top" pus isto porque não estava a dar sem -->
+<header id="header"  class="fixed-top">
     <div class="container d-flex align-items-center justify-content-lg-between ">
         <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
         <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
@@ -132,39 +132,42 @@
 
                 <div class="row">
                     <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
-                        <img src="{% static 'webdanceteria/img/rollerdisco.png' %}" class="img-fluid" alt="">
+                        <img style="margin-left: 30px" src="{% static 'webdanceteria/img/rollerdisco.png' %}" class="img-fluid" alt="">
                     </div>
-                    <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right"
-                         data-aos-delay="100">
+                    <div class="col-lg-6 pt-4 order-2 order-lg-1 content" data-aos="fade-right"
+                         data-aos-delay="100" >
                         <h3> Sobre nós </h3>
                         <p class="fst-italic">
-                            <strong>DANÇ'ARTE </strong> é a danceteria mais popular de Portugal desde 2005 e atrai cada
+                            <strong>DANÇ'ARTE </strong> é uma das danceterias mais populares de Portugal, e atrai cada
                             vez
-                            mais partipantes, tanto clientes como artistas. Inscreve-te numa das muitas atividades
+                            mais amantes da arte da dança. Inscreve-te numa das muitas atividades
                             que temos a oferecer e terás acesso a:
                         </p>
                         <ul>
-                            <li><i class="ri-check-double-line"></i> <strong>Géneros musicais diferenciados:</strong>
+                            <li><strong>Eventos com música diversificada:</strong>
                                 Pop, Raggaeton,
                                 House, Hip-hop,
-                                Música popular brasileira, e outros;
+                                Música popular brasileira, entre outros;
                             </li>
-                            <li><i class="ri-check-double-line"></i> <strong>Vários estilos de dança:</strong> Tango,
+                            <li> <strong>Aulas para aprenderes um novo estilo de dança:</strong>
+
+                                Tango,
                                 Samba, Breakdance,
                                 Salsa, e mais;
                             </li>
-                            <li><i class="ri-check-double-line"></i> <strong>Acesso a performances de artistas
+                            <li> <strong>Acesso a performances de artistas
                                 mundialmente
-                                conhecidos: </strong> Justin
-                                Timberlake, Chris Brown, Madonna e Chloe Arnold, e muitos mais!
+                                conhecidos: </strong>
+                                         <br>
+                                DJ Justin, Chris M, Marienne, e muitos mais!
                             </li>
                         </ul>
                         <p>
-                            No nosso site poderá comprar bilhetes que garantem o acesso a noites cheias de emoção, luz,
+                            No nosso website poderás comprar bilhetes que garantem acesso a noites cheias de emoção, luz,
                             e divertimento.
-                            Durante o dia, poderá ter aulas com instrutores altamente qualificados e especializados no
-                            estilo de
-                            dança escolhido (mais informações na secção "Eventos").
+                            Durante o dia, poderás ter aulas com instrutores altamente qualificados e especializados no
+                            teu estilo de
+                            dança preferido (consuta a secção "Eventos").
                         </p>
                     </div>
                 </div>
@@ -182,14 +185,12 @@
         <div class="container">
             <div class="row justify-content-between">
 
-                <!-- Coluna do Nome da Empresa -->
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-info">
                         <h3> Danç'Arte</h3>
                     </div>
                 </div>
 
-                <!-- Coluna de Redes Sociais e Links -->
                 <div class="col-lg-6 col-md-6">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 footer-links">
@@ -220,12 +221,11 @@
                         <p>
                             Rua Novos Descobrimentos <br>
                             Lisboa, Portugal<br><br>
-                            <strong>Telefone:</strong> +351 123 456 789<br>
+                            <strong>Telefone:</strong> +252 932 456 789<br>
                             <strong>Email:</strong> dancarte@gmail.com<br>
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

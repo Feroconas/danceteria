@@ -98,26 +98,11 @@
 
     <main id="main" >
 
-        <section class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2></h2>
-                    <ol>
-                        <li><a href="home.html">Home</a></li>
-                        {% block pageName %}
-                            <li>Perfil</li>
-                        {% endblock %}
-                    </ol>
-                </div>
-            </div>
-        </section><!-- End Breadcrumbs -->
-
-
 {% block content %}
+    <section>
         <!-- About me -->
         <div class="container">
             <div class="row align-items-center flex-row-reverse">
-
                 <!-- start photo + button edit -->
                 <div class="col-lg-6" style="display: flex;flex-direction: column;align-items: center;">
                     <div class="about-avatar">
@@ -247,6 +232,8 @@
                                     ...{% endif %}</p>
 
                             <div class="removeBtn-container">
+                              <button onclick="location.href='{% url 'webdanceteria:criar_avaliacao_view' evento_id=bilheteEvento.evento.id %}'" class="btn-evaluate">Avaliar evento</button>
+
                                 <button class="btn-remove-ticket" data-id="{{ bilheteEvento.id }}">
                                     Eliminar
                                 </button>
@@ -365,6 +352,7 @@
             </div>
         </div>
         <!-- END POP UP edit user -->
+    </section>
     </main>
 
 
@@ -428,6 +416,8 @@
                 });
             });
         });
+
+
     </script>
 
 

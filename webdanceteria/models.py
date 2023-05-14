@@ -79,7 +79,7 @@ class Evento(models.Model):
     preco_bilhete = models.DecimalField(max_digits=6, decimal_places=2, default=None)
     bilhetes_disponiveis = models.IntegerField()
     descricao = models.CharField(max_length=500, null=True, blank=True)
-    imagem = models.FileField(upload_to='eventoImg', null=True)
+    # imagem = models.FileField(upload_to='eventoImg', null=True)
     artistas = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
