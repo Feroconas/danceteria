@@ -28,9 +28,6 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         print(user)
         if user is not None:
-            # user.user_permissions.add(Permission.objects.get(codename="home"))
-            # Permission.objects.get(codename="view_opcao"),
-            # Permission.objects.get(codename="change_opcao"))
             login(request, user)
             return redirect('webdanceteria:home')
         else:
@@ -236,7 +233,6 @@ def editUser_view(request):
 
 def events_view(request):
     eventos = Evento.objects.exclude(data_hora__isnull=True).order_by(F('data_hora'))
-    # Set the locale to a specific language and encoding
     locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
     for evento in eventos:
         data_hora_formatada = evento.data_hora.strftime('%d de %B de %Y, %H:%M')
