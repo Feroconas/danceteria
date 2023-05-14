@@ -1,6 +1,5 @@
 <html lang="en">
 
-<!-- TO DO: colocar spans alinhados e nºs na bar -->
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -32,32 +31,10 @@
     <!-- Template Main CSS File -->
     <link href="{% static 'webdanceteria/css/styles.css' %}" rel="stylesheet">
 
-    <!-- JS do Bootstrap v5.3 -->
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
-
-
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
-
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
-
-
-    <!-- Template Main JS File -->
-    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
-
-
 </head>
 
 <body>
-<header id="header" class="header-inner-pages">  <!-- class="fixed-top" pus isto porque não estava a dar sem -->
+<header id="header" class="header-inner-pages fixed-top" >  <!-- class="fixed-top" pus isto porque não estava a dar sem -->
     <div class="container d-flex align-items-center justify-content-lg-between ">
         <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
         <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
@@ -96,7 +73,7 @@
     </div>
 </header>
 
-    <main id="main" >
+<main id="main" >
 
 {% block content %}
     <section>
@@ -355,7 +332,6 @@
     </section>
     </main>
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css"
           integrity="sha512-f6gjdlrW/HdqZ5hx8Mq5RKM5h8UBHl6bDTh2Vr9guU/XFR+SuydZJY3VT8vyqXksF+Nc6WJ4sZT9C9JpYXMr+A=="
@@ -417,25 +393,42 @@
             });
         });
 
-
     </script>
 
-
 {% endblock %}
+
+     <!-- JS do Bootstrap v5.3 -->
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
+
 <!-- ======= Footer ======= -->
 <footer id="footer">
     <div class="footer-top">
         <div class="container">
             <div class="row justify-content-between">
 
-                <!-- Coluna do Nome da Empresa -->
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-info">
                         <h3> Danç'Arte</h3>
                     </div>
                 </div>
 
-                <!-- Coluna de Redes Sociais e Links -->
+
                 <div class="col-lg-6 col-md-6">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 footer-links">

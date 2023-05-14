@@ -167,9 +167,7 @@ def criar_evento_view(request):
 @login_required()
 def criar_avaliacao_view(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
-    print("here:", evento.id)
     if request.method == 'POST':
-        print("ENTREI NO IF")
         form = CriarAvaliacaoForm(request.POST)
         if form.is_valid():
             avaliacao = Avaliacao(

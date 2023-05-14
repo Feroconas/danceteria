@@ -21,7 +21,6 @@ genero_choices = [
     ('O', 'Outro')
 ]
 
-
 class NivelMembro(models.Model):
     pontos_necessarios = models.IntegerField()
     recompensa = models.CharField(max_length=50, blank=True)
@@ -56,8 +55,6 @@ class Utilizador(models.Model):
     def __str__(self):
         return self.nome
 
-    # amigos = models.CharField(max_length=500, null=True, blank=True)
-
 
 class Membro(Utilizador):
     preferencias_musicais = models.CharField(max_length=100, null=True)
@@ -79,7 +76,6 @@ class Evento(models.Model):
     preco_bilhete = models.DecimalField(max_digits=6, decimal_places=2, default=None)
     bilhetes_disponiveis = models.IntegerField()
     descricao = models.CharField(max_length=500, null=True, blank=True)
-    # imagem = models.FileField(upload_to='eventoImg', null=True)
     artistas = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):

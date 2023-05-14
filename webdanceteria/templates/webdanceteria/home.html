@@ -33,30 +33,11 @@
     <!-- Template Main CSS File -->
     <link href="{% static 'webdanceteria/css/styles.css' %}" rel="stylesheet">
 
-    <!-- JS do Bootstrap v5.3 -->
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
-
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
-
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
-    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
-
-    <!-- Template Main JS File -->
-    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
-
 </head>
 
 <body>
 
-<header id="header"  class="fixed-top">
+<header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-lg-between ">
         <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
         <!-- usada para posicionar a navbar na última posição quando vista em dispositivos com resolução
@@ -68,7 +49,8 @@
                     <li><a class="nav-link scrollto" href="{% url 'webdanceteria:events_view' %}">Eventos e Aulas</a>
                     </li>
                     {% if request.user.is_authenticated %}
-                        <li><a class="nav-link scrollto " href="{% url 'webdanceteria:avaliacoes_view' %}">Avaliações</a></li>
+                        <li><a class="nav-link scrollto "
+                               href="{% url 'webdanceteria:avaliacoes_view' %}">Avaliações</a></li>
                     {% endif %}
                     {% if request.user.is_authenticated %}
                         {% if user.is_superuser %}
@@ -90,7 +72,6 @@
                style="margin-right: -250px">Registar</a>
             <a href="{% url 'webdanceteria:login_view' %}" class="log-btn scrollto">Login</a>
         {% endif %}
-
 
     </div>
 </header>
@@ -132,10 +113,11 @@
 
                 <div class="row">
                     <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
-                        <img style="margin-left: 30px" src="{% static 'webdanceteria/img/rollerdisco.png' %}" class="img-fluid" alt="">
+                        <img style="margin-left: 30px" src="{% static 'webdanceteria/img/rollerdisco.png' %}"
+                             class="img-fluid" alt="">
                     </div>
                     <div class="col-lg-6 pt-4 order-2 order-lg-1 content" data-aos="fade-right"
-                         data-aos-delay="100" >
+                         data-aos-delay="100">
                         <h3> Sobre nós </h3>
                         <p class="fst-italic">
                             <strong>DANÇ'ARTE </strong> é uma das danceterias mais populares de Portugal, e atrai cada
@@ -149,21 +131,22 @@
                                 House, Hip-hop,
                                 Música popular brasileira, entre outros;
                             </li>
-                            <li> <strong>Aulas para aprenderes um novo estilo de dança:</strong>
+                            <li><strong>Aulas para aprenderes um novo estilo de dança:</strong>
 
                                 Tango,
                                 Samba, Breakdance,
                                 Salsa, e mais;
                             </li>
-                            <li> <strong>Acesso a performances de artistas
+                            <li><strong>Acesso a performances de artistas
                                 mundialmente
                                 conhecidos: </strong>
-                                         <br>
+                                <br>
                                 DJ Justin, Chris M, Marienne, e muitos mais!
                             </li>
                         </ul>
                         <p>
-                            No nosso website poderás comprar bilhetes que garantem acesso a noites cheias de emoção, luz,
+                            No nosso website poderás comprar bilhetes que garantem acesso a noites cheias de emoção,
+                            luz,
                             e divertimento.
                             Durante o dia, poderás ter aulas com instrutores altamente qualificados e especializados no
                             teu estilo de
@@ -196,19 +179,28 @@
                         <div class="col-lg-6 col-md-6 footer-links">
                             <h4 class="footer-title">Redes Sociais</h4>
                             <div class="social-links mt-3">
-                                <a href="https://twitter.com/Dance_Magazine" class="twitter" target="_blank"><img src="{% static 'webdanceteria/img/twitter.png' %}" alt="Twitter"></a>
-                                <a href="https://www.facebook.com/justdancegame" class="facebook" target="_blank"><img src="{% static 'webdanceteria/img/facebook.png' %}" alt="Facebook"></a>
-                                <a href="https://www.instagram.com/nextdanceschool/" class="instagram" target="_blank"><img src="{% static 'webdanceteria/img/instagram.png' %}" alt="Instagram"></a>
-                                <a href="https://www.youtube.com/@JazzyDanceStudiosChannel" class="youtube" target="_blank"><img src="{% static 'webdanceteria/img/youtube.png' %}" alt="Youtube"></a>
+                                <a href="https://twitter.com/Dance_Magazine" class="twitter" target="_blank"><img
+                                        src="{% static 'webdanceteria/img/twitter.png' %}" alt="Twitter"></a>
+                                <a href="https://www.facebook.com/justdancegame" class="facebook" target="_blank"><img
+                                        src="{% static 'webdanceteria/img/facebook.png' %}" alt="Facebook"></a>
+                                <a href="https://www.instagram.com/nextdanceschool/" class="instagram"
+                                   target="_blank"><img src="{% static 'webdanceteria/img/instagram.png' %}"
+                                                        alt="Instagram"></a>
+                                <a href="https://www.youtube.com/@JazzyDanceStudiosChannel" class="youtube"
+                                   target="_blank"><img src="{% static 'webdanceteria/img/youtube.png' %}"
+                                                        alt="Youtube"></a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 footer-links">
                             <h4 class="footer-title">Links</h4>
                             <ul>
-                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:home' %}">Home</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a
+                                        href="{% url 'webdanceteria:home' %}">Home</a></li>
                                 <li><i class="bx bx-chevron-right"></i> <a href="/danceteria/#about">Sobre nós</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos e Aulas</a></li>
-                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a href="{% url 'webdanceteria:events_view' %}">Eventos
+                                    e Aulas</a></li>
+                                <li><i class="bx bx-chevron-right"></i> <a
+                                        href="{% url 'webdanceteria:profile_view' %}">Perfil</a></li>
                             </ul>
                         </div>
                     </div>
@@ -231,6 +223,23 @@
     </div>
 </footer>
 
+    <!-- Template Main JS File -->
+    <script src="{% static 'webdanceteria/js/myscripts.js' %}"></script>
+    <!-- JS do Bootstrap v5.3 -->
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
+
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.js.map' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static 'webdanceteria/bootstrap/js/bootstrap.esm.min.js.map' %}"></script>
 
 </body>
 

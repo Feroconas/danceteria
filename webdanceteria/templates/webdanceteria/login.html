@@ -9,9 +9,8 @@
 
  {% block content %}
 
-
 <body>
-     <header id="header"  class="fixed-top">  <!-- class="fixed-top" pus isto porque não estava a dar sem -->
+     <header id="header"  class="fixed-top">
         <div class="container d-flex align-items-center justify-content-lg-between ">
             <h1 class="logo me-auto me-lg-0"><a href="{% url 'webdanceteria:home' %}"> Danç'Arte <span>.</span></a></h1>
 
@@ -21,6 +20,7 @@
                 <a href="{% url 'webdanceteria:register_member_view' %}" class="log-btn scrollto"
                    >Registar</a>
             {% endif %}
+
         </div>
     </header>
 
@@ -48,16 +48,9 @@
       </div>
       </div>
 
-
-
     </div>
   </section><!-- End Hero -->
-
-
 
  {% endblock %}
 
 
-
-
-</body>
